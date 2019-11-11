@@ -222,7 +222,7 @@ gapminder::gapminder %>%
 
 **Shortcode**
 
-{{< tweet 981532034106576901 >}}
+ {{ if not .Site.IsServer }} {{< tweet 981532034106576901 >}}
 
 
 **R Markdown / Chunk**

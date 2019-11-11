@@ -76,3 +76,6 @@ copyright = ""            # default: author.name ↓
     c-twitter = "https://www.twitter.com/fubits/"
     g-github = "https://www.github.com/ellocke/"
    # m-instagram = "https://keybase.com/fubits"
+  
+    [outputs]
+    home = ["HTML", "RSS"]
