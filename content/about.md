@@ -23,6 +23,10 @@ I freelance as a developer, "data person"^[Randy Au has written a very smart pie
 
 Currently, I work as a `Technology Consultant` and `Developer` for New America's D.C.-based <a href="https://rankingdigitalrights.org/" target="_blank">Ranking Digital Rights</a> project. Before that I've worked for the Berlin-based <a href="https://www.hiig.de" target="_blank">Humboldt Institute for Internet and Society (HIIG)</a> and the <a href="https://www.swp-berlin.org/en/about-swp/" target="_blank">German Institute for International and Security Affairs</a> (SWP Berlin).
 
+## Talks
+
+> See the [Talks](/talks/) page for slides, and workshop materials.
+
 ## This Site
 
 One **focus** of mine is on creating reproducible stuff with R (SNA, NLP, DataViz, GIS/Maps, Publishing/Writing/Blogging) --- including this very kind of code-centric reporting / publishing as demonstrated by my website. This helps me explore and prototype the potentials of Code + Markdown + JS based workflows for **replication-friendly, data-driven, <a href="https://en.wikipedia.org/wiki/Free_and_open-source_software" target="_blank">FOSS</a>-based Open Science and research communication** - academic or not.
@@ -31,21 +35,17 @@ Apart from that, I have entered the realm of (research) software engineering, an
 
 In general, what I do and how I interact with clients and employers is rooted in `Human-Centered Design` as defined in <a href="https://en.wikipedia.org/wiki/ISO_9241" target="_blank">ISO 9241</a>.
 
+## Freelancing
+
+I'm always keen to explore ways to help not-for-profit organisations advance their mission. I create maps, data and information visualisations, or interactive stand-alone web apps with a low-dependency & low-maintainance stack (i.e. static web site renderer with LTS JS framework versions & CC-based templates). Currently, I am implementing a tailored data management system based on JavaScript and full Google G-Suite integration. Check out my [**Portofolio**](/portfolio) page for a visual impression.
+
+<a href="/portfolio">![My Portfolio](/img/about/portfolio.jpg "My Portfolio")</a>
+
 ## Projects
 
 My biggest **project** so far was being a `Digital Officer` (project-based, 1 year) for a big German think tank's shot at digital publishing, digitally supported research, and digitized science communication. I also wrote a bit on the [methodology](https://projekt.swp-berlin.org/urbaneraeume/kapitel/zur-methode/#aufbau-konzept-und-tools-der-webseite) (in German) re: `digital tools` & the makings of the project's `website`. You can find out more [here](https://medium.com/@Fubits/urbane-r%C3%A4ume-proteste-weltpolitik-21f05d512cc4) (in German) or have your own look at the results [here](https://projekt.swp-berlin.org/urbaneraeume/kapitel/blacklivesmatter/#chronologie-blacklivesmatter).
 
 <a href="https://projekt.swp-berlin.org/urbaneraeume/">![(**One visual pattern from the "Urban Spaces" project @ SWP Berlin)**](/img/about/urban_spaces_cover.jpeg "One visual pattern from the 'Urban Spaces' project @ SWP Berlin")</a>
-
-## Freelancing
-
-I'm always exploring ways to help not-for-profit organisations advance their mission. I create maps, data and information visualisations, or interactive stand-alone web apps with a low-dependency & low-maintainance stack (i.e. static web site renderer with LTS JS framework versions & CC-based templates). Check out my [**Portofolio**](/portfolio) page for a visual impression.
-
-<a href="/portfolio">![My Portfolio](/img/about/portfolio.jpg "My Portfolio")</a>
-
-## Talks
-
-> See the [Talks](/talks/) page for slides, and workshop materials.
 
 ## Contact
 

@@ -904,7 +904,7 @@ NA
 <div id="tweets" class="section level3">
 <h3>Tweets</h3>
 <p><strong>Shortcode</strong></p>
-<p>{{&lt; tweet 981532034106576901 &gt;}}</p>
+<p>{{ if not .Site.IsServer }} {{&lt; tweet 981532034106576901 &gt;}}</p>
 <p><strong>R Markdown / Chunk</strong></p>
 <pre class="r"><code># {r echo=FALSE}
 blogdown::shortcode(&#39;tweet&#39;, &#39;852205086956818432&#39;)</code></pre>
