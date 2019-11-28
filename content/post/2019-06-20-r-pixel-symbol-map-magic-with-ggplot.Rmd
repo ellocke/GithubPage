@@ -20,7 +20,7 @@ output:
 lastmod: '2019-06-20T12:40:54+02:00'
 description: 'Pixel maps are awesome. Short post on how to add symbols and create a production ready pixel/symbol map design with the ggplot, extrafont and emojifont packages.'
 abstract: 'Pixel maps are awesome. Short post on how to add symbols and create a production ready pixel/symbol map design with the ggplot, extrafont and emojifont packages.'
-thumbnail: /img/thumbs/pixel-symbol-map-magic-thumb.png
+thumbnail: '/img/thumbs/pixel-symbol-map-magic-thumb.png'
 rmdlink: yes
 keywords: []
 comment: no
