@@ -1,7 +1,7 @@
 ---
 title: 'Talks & Materials'
 author: Ilja @fubits
-date: '2018-11-30'
+date: '2018-11-28'
 slug: talks
 categories:
   - Rstats
@@ -16,7 +16,7 @@ tags:
   - sf
 lastmod: '2019-11-28T16:52:11+02:00'
 keywords: []
-description: 'Page with Talks, Slides, and Materials by Ilja / fubits'
+description: 'Page with Talks, Slides, and Workshop Materials by Ilja / fubits'
 rmdlink: TRUE
 output:
   blogdown::html_page:
@@ -42,16 +42,17 @@ sequenceDiagrams:
 
 # Talks
 
-Slides and materials for my public talks & workshops (work in progress, obviously).
+Slides and resources for my public talks & workshops.
 
-> All my stuff is published under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/){target="_blank"}.
+> All **my** stuff is published under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/){target="_blank"}.
 
 ___
 
-## GIS / Mapping / Spatial workflows
+## GIS / Mapping / Spatial Workflows
 
-> 2019-11-27: Pragmatic GIS with R: Tidy Approaches to Spatial Data
-> Presented at [BerlinR MeetUp #6](https://www.meetup.com/de-DE/BerlinR-R-users-group/events/266157696/){target="_blank"}
+> 2019-11-27: Pragmatic GIS with R - Tidy Approaches to Spatial Data
+
+* Presented at [BerlinR MeetUp #6](https://www.meetup.com/de-DE/BerlinR-R-users-group/events/266157696/){target="_blank"}
 
 ```{r out.width = '100%', fig.asp=1.78, echo=FALSE}
 knitr::include_url('/talks/BerlinRTidyGIS/BerlinR_GIS_talk.html')
@@ -63,7 +64,8 @@ knitr::include_url('/talks/BerlinRTidyGIS/BerlinR_GIS_talk.html')
 ___
 
 > 2018-04-19: Hi-Res Mapping with R for Print
-> Presented at  [CODE/GEO/GRAPHIC](http://code-geo-graphic.com/){target="_blank"}
+
+* Presented at  [CODE/GEO/GRAPHIC](http://code-geo-graphic.com/){target="_blank"}
 
 [![](/img/mapping_talk/map_affinity.jpg)](/post/r-low-budget-high-res-mapping-with-r-for-not-for-profit-print/ "Post / Notebook")
 
@@ -75,7 +77,8 @@ ___
 ## Blogdown
 
 > 2018-11-28: Code-centric Websites with Blogdown & R
-> Presented at [Berlin R Users Group](https://www.meetup.com/de-DE/Berlin-R-Users-Group/events/256343177/){target="_blank"}
+
+* Presented at [Berlin R Users Group](https://www.meetup.com/de-DE/Berlin-R-Users-Group/events/256343177/){target="_blank"}
 
 ```{r out.width = '100%', fig.asp=1.78, echo=FALSE}
 knitr::include_url('/talks/rblogdown/rblogdown.html')
