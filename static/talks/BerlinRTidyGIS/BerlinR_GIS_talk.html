@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>BerlinR: Pragmatic GIS with R</title>
+    <title>Pragmatic GIS with R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Ilja | @fubits" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
@@ -12,8 +12,8 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# BerlinR: Pragmatic GIS with R
-## Tidy Approaches to Spatial Data
+# Pragmatic GIS with R
+## Tidy Approaches to Spatial Data, Pt. 1
 ### Ilja | <a href="https://twitter.com/fubits"><span class="citation">@fubits</span></a>
 ### BerlinR Meetup, 2019-11-27
 
@@ -34,7 +34,6 @@ class: inverse
 1. State of &lt;a href="#"&gt;#Rspatial&lt;/a&gt;
 1. Recap: GIS basics
 1. Demo / Walkthrough
-1. Readings
 ]
 
 ]
@@ -42,6 +41,23 @@ class: inverse
 ???
 Goal: Pragmatism. Know enough to be able to produce.
 Not a goal: Design Theory &amp; Cartography
+
+---
+class: inverse
+
+# Readings
+
+.bigpicture-right[![](img/gecomputation_with_r.jpg)]
+
++ [Lovelace / Nowosad / Muenchow (2019)](https://geocompr.robinlovelace.net/)
+--
+
++ follow [Michael Sumner / @mdsumner](https://twitter.com/mdsumner)
+  + Example: [R spatial in 2017](https://mdsumner.github.io/2017/01/10/spatial-r-2017.html)
+--
+
++ [GIS like it's 2019 (me) ](https://dadascience.design/post/r-gis-like-it-s-2019-pragmatic-workflows-pt-1/)
+ &lt;- more resources, &lt;br&gt; readings, and recipes
 
 ---
 class: inverse
@@ -87,7 +103,7 @@ class: inverse
 [50% in dirty R...](https://dadascience.design/post/r-low-budget-high-res-mapping-with-r-for-not-for-profit-print/)
 
 ```r
-asia_core &lt;-  spRbind(
+asia_core &lt;- spRbind(
                 spRbind(
                   spRbind(asia_china,
                   asia_east),
@@ -139,7 +155,7 @@ class: inverse
 class: inverse
 
 # Mid-2019
-.bigpicture-right[![](img/granica_cembrago.jpg)]
+.bigpicture-right[![](img/granica_cembrago.jpg)] 
 --
 
 (Report on Security Forces in&lt;br&gt;Afghanistan; forthcoming)
@@ -159,6 +175,8 @@ class: inverse
 Why not QGIS?
 ---
 class: inverse, center
+
+# x4
 
 .bigpicture-centre[![](img/granica_cembrago.jpg)]
 ???
@@ -243,7 +261,10 @@ class: inverse
 .pull-left[
 + {Point, Line, Polygon}, {Pixel}
 + Projection / CRS
-+ Object Relations and Set Operations (~ SQL, but with paper &amp; ✂️)
+  + [epsg.io](https://epsg.io/4326)
+  + `sf::st_transform(crs)`
++ Topological Relations and Set Operations
+  + ~ like SQL, but with paper &amp; ✂️
 ]
 
 ---
@@ -289,11 +310,12 @@ class: inverse
 .pull-left[
 + two-way relations:
   + a contains b
-  + b contained by a&lt;br&gt;(b is within a)
+  + b contained by a&lt;br&gt;(~b is within a)
 + challenge: 100% precision
-+ mighy: [sf cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/sf.pdf)
++ mighty: [sf cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/sf.pdf)
++ good overview:&lt;br&gt;[rugbyprof/4553-Spatial-DS
+](https://github.com/rugbyprof/4553-Spatial-DS/wiki/Topological-Relationships)
 ]
-
 .source[Source: &lt;a href="https://commons.wikimedia.org/wiki/File:TopologicSpatialRelarions2.png"&gt;Krauss&lt;/a&gt;, &lt;a href="https://creativecommons.org/licenses/by-sa/3.0"&gt;CC BY-SA 3.0&lt;/a&gt;]
 
 ---
@@ -309,30 +331,15 @@ class: inverse
 
 # Case: Close the Gap
 
-.pull-left-one-third[Our team won the [mobility challenge at the 2019 Climathon in Berlin](https://climathon.climate-kic.org/en/challenges/mobility/new-mobility) with this prototype.&lt;br&gt;&lt;br&gt;
-Techinical proof-of-concept: we classified every single bike lane segment in Berlin based on air quality, accident, and traffic probe data.&lt;br&gt;
-&lt;br&gt;
-Repo: [climathon-2019/R](https://github.com/leonardlorenz/climathon-2019/tree/master/R)
+.pull-left-one-third[.dense-text[We won the [mobility challenge at the 2019 Climathon in Berlin](https://climathon.climate-kic.org/en/challenges/mobility/new-mobility) with this prototype.&lt;br&gt;&lt;br&gt;
+Proof-of-concept: we classified every single bike lane segment in Berlin based on air quality, accident, and traffic probe data.&lt;br&gt;
+**Goal**: find the worst of the worst segements to be fixed.
 ]
 
+.source-right[Repo: [climathon-2019/R](https://github.com/leonardlorenz/climathon-2019/tree/master/R)
+]]
+
 .bigpicture-two-thirds[![](https://raw.githubusercontent.com/leonardlorenz/climathon-2019/master/screenshot.png)]
-
----
-class: inverse
-
-# Readings
-
-.bigpicture-right[![](img/gecomputation_with_r.jpg)]
-
-+ [Lovelace / Nowosad / Muenchow (2019)](https://geocompr.robinlovelace.net/)
---
-
-+ follow [Michael Sumner / @mdsumner](https://twitter.com/mdsumner)
-  + Example: [R spatial in 2017](https://mdsumner.github.io/2017/01/10/spatial-r-2017.html)
---
-
-+ [GIS like it's 2019 (me) ](https://dadascience.design/post/r-gis-like-it-s-2019-pragmatic-workflows-pt-1/)
- &lt;- more resources, &lt;br&gt; readings, and recipes
 
 ---
 class: inverse, center, middle
