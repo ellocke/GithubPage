@@ -190,6 +190,7 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 0;
     right: 6em;
     font-size: 1em;
+    z-index: 999;
 }
 
 .source {
@@ -197,6 +198,7 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     bottom: 0;
     font-size: 0.8em;
+    z-index: 999;
 }
 
 .source p {

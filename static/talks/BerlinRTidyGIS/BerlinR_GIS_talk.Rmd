@@ -297,7 +297,6 @@ class: inverse
 + points, sequences of points,<br>collections of <br>
 sequenences of points ("multi")
 + everything (!) has a **square <br>bounding box** [BBOX]
-+ slighly messy: polygons with<br> holes
 + `r emojifont::emoji("package")` sf
 
 .source[Image source: [Data Carpentry](https://datacarpentry.org/organization-geospatial/02-intro-vector-data/), CC BY 4.0]
@@ -352,13 +351,13 @@ class: inverse
 
 # Case: Close the Gap
 
+.source-right[Repo: [climathon-2019/R](https://github.com/leonardlorenz/climathon-2019/tree/master/R)
+]]
+
 .pull-left-one-third[.dense-text[We won the [mobility challenge at the 2019 Climathon in Berlin](https://climathon.climate-kic.org/en/challenges/mobility/new-mobility) with this prototype.<br><br>
 Proof-of-concept: we classified every single bike lane segment in Berlin based on air quality, accident, and traffic probe data.<br>
 **Goal**: find the worst of the worst segements to be fixed.
 ]
-
-.source-right[Repo: [climathon-2019/R](https://github.com/leonardlorenz/climathon-2019/tree/master/R)
-]]
 
 .bigpicture-two-thirds[![](https://raw.githubusercontent.com/leonardlorenz/climathon-2019/master/screenshot.png)]
 
