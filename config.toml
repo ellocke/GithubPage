@@ -16,6 +16,25 @@ hasCJKLanguage = false     # has chinese/japanese/korean ?
 paginate = 5
 copyright = ""            # default: author.name ↓
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = true
+    [markup.goldmark.parser]
+      attribute = true
+      autoHeadingID = true
+      autoHeadingIDType = "github"
+    [markup.goldmark.renderer]
+      hardWraps = false
+      unsafe = true
+      xHTML = false
+
 [author]                  # essential
   name = "Ilja @fubits"
 
