@@ -101,7 +101,7 @@ sequenceDiagrams:
 <img src="/img/GitLab_JSON/gitlab_json.jpg" alt="(Direct copy &amp; past access to the JSON data from the query response tab. Fold the values node if you can’t access the content field)" />
 <p class="caption"><em>(Direct copy &amp; past access to the JSON data from the query response tab. Fold the values node if you can’t access the content field)</em></p>
 </div>
-<p>You’ll get a list of nested lists<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>, have to locate the data node and convert the data into something you can work with (i.e. a tidy data frame). This is the level of insanity where I gave up since I couldn’t manage to iterate over the list without a for-loop:</p>
+<p>You’ll get a list of nested lists<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, have to locate the data node and convert the data into something you can work with (i.e. a tidy data frame). This is the level of insanity where I gave up since I couldn’t manage to iterate over the list without a for-loop:</p>
 <div class="figure">
 <img src="/img/GitLab_JSON/gitlab_json_ugly.jpg" alt="(*Help!*. I can’t process the atomic level.)" />
 <p class="caption"><em>(*Help!*. I can’t process the atomic level.)</em></p>
@@ -130,14 +130,6 @@ json_file &lt;- &quot;https://gist.githubusercontent.com/ellocke/498d492dfefd339
 # Two lines
 json_copy &lt;- jsonlite::fromJSON(json_file)
 json_copy$data$result$values[[1]] %&gt;% as.tibble() %&gt;% head(5)</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##   V1         V2                
-##   &lt;chr&gt;      &lt;chr&gt;             
-## 1 1528041600 102.43391526291488
-## 2 1528045200 65.27196652719665 
-## 3 1528048800 124.51882845188284
-## 4 1528052400 364.87669611378044
-## 5 1528056000 183.96696534350002</code></pre>
 <blockquote>
 <p>Notice that the values are processed as character strings… We’ll deal with this in a second. Same for the V1 variable which actually is date &amp; time in the <a href="https://en.wikipedia.org/wiki/Unix_time">Unix Timestamp format aka <code>POSIX</code></a>.</p>
 </blockquote>
@@ -152,9 +144,8 @@ json_copy$data$result$values[[1]] %&gt;% as.tibble() %&gt;% head(5)</code></pre>
 <pre class="r"><code>DOM_URL &lt;- parse_url(&#39;https://monitor.gitlab.net/api/datasources/proxy/2/api/v1/query_range?query=sum(rate(github_importer_imported_repositories{environment = &quot;prd&quot;}[9000s])) * 3600&amp;start=1528041600&amp;end=1528698457&amp;step=9000&#39;) # we either need to escape &quot;prd&quot; with \&quot;prd\&quot; or use &#39; &#39; for the outer string wrapping
 
 json_raw &lt;- GET(url = DOM_URL)
-http_status(json_raw)$message # let&#39;s check if the GET request was a success (=200)</code></pre>
-<pre><code>## [1] &quot;Success: (200) OK&quot;</code></pre>
-<pre class="r"><code># content(json_dom, &quot;parsed&quot;) # one way to see the content</code></pre>
+http_status(json_raw)$message # let&#39;s check if the GET request was a success (=200)
+# content(json_dom, &quot;parsed&quot;) # one way to see the content</code></pre>
 </div>
 <div id="parse-json" class="section level2">
 <h2><span class="header-section-number">3.3</span> Parse JSON</h2>
@@ -164,11 +155,10 @@ http_status(json_raw)$message # let&#39;s check if the GET request was a success
 <img src="/img/GitLab_JSON/gitlab_json_raw.jpg" alt="(Rawrrrrrr)" />
 <p class="caption"><em>(Rawrrrrrr)</em></p>
 </div>
-<p>Let’s parse it. <code>httr</code> offers a couple of convenient shortcuts here. We can parse the JSON as a <code>String</code> (with <code>as = &quot;text&quot;</code>) and then process it with <code>jsonlite::fromJSON</code>. <del>Or we can instantly parse it to “parsed”&quot; JSON with 1 line.</del> (Not working properly for me, yet)</p>
+<p>Let’s parse it. <code>httr</code> offers a couple of convenient shortcuts here. We can parse the JSON as a <code>String</code> (with <code>as = "text"</code>) and then process it with <code>jsonlite::fromJSON</code>. <del>Or we can instantly parse it to “parsed”" JSON with 1 line.</del> (Not working properly for me, yet)</p>
 <pre class="r"><code># as = &quot;text&quot;
-json_parsed &lt;- content(json_raw, as = &quot;text&quot;) # simple, for follow-up with jsonlite::fromJSON()</code></pre>
-<pre><code>## No encoding supplied: defaulting to UTF-8.</code></pre>
-<pre class="r"><code># str(json_parsed)
+json_parsed &lt;- content(json_raw, as = &quot;text&quot;) # simple, for follow-up with jsonlite::fromJSON()
+# str(json_parsed)
 
 #  as = &quot;parsed&quot; 
 # json_object &lt;- content(json_raw, as = &quot;parsed&quot;, type = &quot;application/json&quot;, encoding = &quot;UTF-8&quot;)
@@ -195,14 +185,6 @@ json_object$data$result$values[[1]] %&gt;% as.tibble() -&gt; json_dirty
 # json_object$data$result[[1]][[2]] %&gt;% as.tibble() -&gt; json_dirty # not working, yet
 # json_object[[&quot;data&quot;]][[&quot;result&quot;]][[1]][[&quot;values&quot;]] %&gt;% as.tibble() # not working, yet
 head(json_dirty, 5) #&gt; 2x chr</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##   V1         V2                
-##   &lt;chr&gt;      &lt;chr&gt;             
-## 1 1529136000 20.475281924890098
-## 2 1529136000 20.475281924890098
-## 3 1529136000 20.475281924890098
-## 4 1529145000 63.30551319533758 
-## 5 1529154000 66.11018332724854</code></pre>
 <p>As both columns/variables are coded as character strings - and we want to have the first column as a <code>Date</code> type variable - we’d need to use <code>mutate</code> on both. Furthermore, <code>lubridate::as_datetime</code> is of insane value here but needs something numeric, too. We actually have Unix Timestamp data here which would be <code>something * something * 86400</code> seconds if you wanted to convert it to a human readable format. <code>as_datetime()</code> simply does it with one call.</p>
 <div id="tidy-date-1-with-lubridate" class="section level2">
 <h2><span class="header-section-number">4.1</span> Tidy Date #1 with lubridate</h2>
@@ -210,48 +192,17 @@ head(json_dirty, 5) #&gt; 2x chr</code></pre>
   mutate(V1 = lubridate::as_datetime(as.numeric(V1)), # first to int, then to date
          V2 = as.numeric(V2)) -&gt; json_tidy
 head(json_tidy)</code></pre>
-<pre><code>## # A tibble: 6 x 2
-##   V1                     V2
-##   &lt;dttm&gt;              &lt;dbl&gt;
-## 1 2018-06-16 08:00:00  20.5
-## 2 2018-06-16 08:00:00  20.5
-## 3 2018-06-16 08:00:00  20.5
-## 4 2018-06-16 10:30:00  63.3
-## 5 2018-06-16 13:00:00  66.1
-## 6 2018-06-16 15:30:00 193.</code></pre>
 <p>However, we can simplify this <strong>even further</strong>!</p>
 </div>
 <div id="tidy-date-2-type_convert-to-the-rescue-two-lines-pt.-2" class="section level2">
 <h2><span class="header-section-number">4.2</span> Tidy Date #2: type_convert() to the Rescue / Two Lines, Pt. 2</h2>
 <pre class="r"><code># json_object &lt;- jsonlite::fromJSON(json_parsed)
-json_object$data$result$values[[1]] %&gt;% as.tibble() %&gt;% type_convert() -&gt; json_dirty</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   V1 = col_integer(),
-##   V2 = col_double()
-## )</code></pre>
-<pre class="r"><code>head(json_dirty, 5) # &gt; int &amp; dbl</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##           V1    V2
-##        &lt;int&gt; &lt;dbl&gt;
-## 1 1529136000  20.5
-## 2 1529136000  20.5
-## 3 1529136000  20.5
-## 4 1529145000  63.3
-## 5 1529154000  66.1</code></pre>
+json_object$data$result$values[[1]] %&gt;% as.tibble() %&gt;% type_convert() -&gt; json_dirty
+head(json_dirty, 5) # &gt; int &amp; dbl</code></pre>
 <p>Now the date &amp; time / <code>POSIX</code> column:</p>
 <pre class="r"><code>json_dirty %&gt;%
   mutate(V1 = lubridate::as_datetime((V1))) -&gt; json_tidy
 head(json_tidy) # &gt; V1 == &lt;dttm&gt;</code></pre>
-<pre><code>## # A tibble: 6 x 2
-##   V1                     V2
-##   &lt;dttm&gt;              &lt;dbl&gt;
-## 1 2018-06-16 08:00:00  20.5
-## 2 2018-06-16 08:00:00  20.5
-## 3 2018-06-16 08:00:00  20.5
-## 4 2018-06-16 10:30:00  63.3
-## 5 2018-06-16 13:00:00  66.1
-## 6 2018-06-16 15:30:00 193.</code></pre>
 <p><strong>Ok, almost done. Let’s rename the variables to something meaningful with <code>rename()</code> and finally plot the data</strong></p>
 <p>(Yes, we could also have used</p>
 <blockquote>
@@ -268,14 +219,12 @@ head(json_tidy) # &gt; V1 == &lt;dttm&gt;</code></pre>
 <pre class="r"><code>json_tidy %&gt;%
   ggplot(aes(x = date, y = repos)) +
   geom_line()</code></pre>
-<p><img src="/post/2018-06-11-r-fetching-json-data-on-the-github-to-gitlab-exodus-from-june-2018_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 <div id="total-of-repos-cumulated-over-time" class="section level2">
 <h2><span class="header-section-number">5.2</span> Total # of Repos, cumulated over Time</h2>
 <pre class="r"><code>json_tidy %&gt;% 
   ggplot(aes(x = date, y = repos)) + 
     geom_line(aes(y = cumsum(repos)))</code></pre>
-<p><img src="/post/2018-06-11-r-fetching-json-data-on-the-github-to-gitlab-exodus-from-june-2018_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="bonus-github-api-rate-limit-hits" class="section level2">
 <h2><span class="header-section-number">5.3</span> Bonus: GitHub API Rate Limit Hits</h2>
@@ -301,18 +250,12 @@ jsonlite::fromJSON(json_rates)$data$result$values[[1]] %&gt;%
   type_convert() %&gt;%
   mutate(V1 = lubridate::as_datetime(V1)) %&gt;% 
   rename(date = V1, limit_hits = V2) -&gt; json_rates</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   V1 = col_integer(),
-##   V2 = col_double()
-## )</code></pre>
 </div>
 <div id="plot-of-repos-github-api-rate-limit-hits" class="section level2">
 <h2><span class="header-section-number">5.4</span> Plot # of Repos &amp; GitHub API Rate Limit Hits</h2>
 <pre class="r"><code>ggplot() +
   geom_line(data = json_tidy, aes(x = date, y = repos), color = &quot;blue&quot;) +
   geom_line(data = json_rates, aes(x = date, y = limit_hits), color = &quot;red&quot;)</code></pre>
-<p><img src="/post/2018-06-11-r-fetching-json-data-on-the-github-to-gitlab-exodus-from-june-2018_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <blockquote>
 <p>Done! Actually, not that hard right? Only took me a couple of days to figure this out… I’ll update this post as soon as I have found a more efficient way (in lines of code).</p>
 </blockquote>
@@ -323,15 +266,12 @@ jsonlite::fromJSON(json_rates)$data$result$values[[1]] %&gt;%
 <ul>
 <li><p><a href="https://twitter.com/OscarNLane/status/1008273786980917248">Oscar Lane</a> just published a more generalized approach to mining data from “Browser-based” APIs: <a href="https://oscarl.netlify.com/2018/06/14/reverse-engineering-web-apis-for-scraping/">“Reverse engineering web APIs for scraping”</a></p>
 <p>His <code>map_*</code>-approach to JSON looks very efficient:</p>
-<div class="figure">
-<img src="/img/Gitlab_JSON/oscar_lane_map.jpg" />
-
-</div></li>
+<p><img src="/img/Gitlab_JSON/oscar_lane_map.jpg" /></p></li>
 </ul>
 </div>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>An analogy I came up with while writing this is think of arriving at the <em>last</em> node - but actually you need the <em>“lastest”</em>. This is a reference to the German miss-term <em>Einzigste</em> which is a superlative of the superlative for “the one and only” which would be something like “the one and <em>onlyest</em>”.<a href="#fnref1">↩</a></p></li>
+<li id="fn1"><p>An analogy I came up with while writing this is think of arriving at the <em>last</em> node - but actually you need the <em>“lastest”</em>. This is a reference to the German miss-term <em>Einzigste</em> which is a superlative of the superlative for “the one and only” which would be something like “the one and <em>onlyest</em>”.<a href="#fnref1" class="footnote-back">↩</a></p></li>
 </ol>
 </div>

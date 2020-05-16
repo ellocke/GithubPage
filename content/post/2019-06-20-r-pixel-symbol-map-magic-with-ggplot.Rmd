@@ -38,9 +38,7 @@ mathjaxEnableAutoNumber: no
 
 Last week, [Lisa Hehnke's](https://twitter.com/DataPlanes){target="_blank"} [#TidyTuesday](https://twitter.com/hashtag/TidyTuesday?src=hash){target="_blank"}-contribution on Twitter got me really excited: She created an animated pixel map of all meteoroid impacts from 1900 to 2010:
 
-```{r echo=FALSE}
-blogdown::shortcode('tweet', '1138532858442784768')
-```
+![https://twitter.com/dataplanes/status/1138532858442784768](/img/pixel_map/tweet-dataplanes.jpg)
 
 As I was experimenting with symbols & dataviz for a client recently, I felt inspired to play around a bit with the potentials of combining pixels + symbols and some basic design tweaks. I was surprised how straightforward this was with R so I decided to share my approach. 
 

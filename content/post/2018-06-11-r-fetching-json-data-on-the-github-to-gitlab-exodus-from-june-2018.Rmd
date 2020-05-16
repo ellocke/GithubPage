@@ -98,7 +98,7 @@ Only yesterday it somehow struck me that I'm not after the `$values` ~~variable~
 ### Two Lines, Pt. 1
 
 From here on, it's rather straightforward: 
-```{r message=FALSE}
+```{r message=FALSE, eval=FALSE}
 library(tidyverse) # this line doesn't count. 
 json_file <- "https://gist.githubusercontent.com/ellocke/498d492dfefd339b8c9884fd07c8f4bb/raw/0efef128bb7dbfe9f3f43c9ce034c6bcdd2ec00a/data.json" # Link to the json.data file in a Gist
 
@@ -115,13 +115,13 @@ Ok, that'll basically suffice for a quick analysis, but if you want to *automate
 
 First, we need the `httr`-package, which is a convenient wrapper for lots of common `HTTP` / `curl` methods. Check out the [vignette for `httr`](https://cran.r-project.org/web/packages/httr/vignettes/quickstart.html).
 
-```{r}
+```{r eval=FALSE}
 library(httr)
 ```
 
 Next, we need the query as an `URL` which we can grab from the Network Analysis tab (see above).
 
-```{r}
+```{r eval=FALSE}
 DOM_URL <- parse_url('https://monitor.gitlab.net/api/datasources/proxy/2/api/v1/query_range?query=sum(rate(github_importer_imported_repositories{environment = "prd"}[9000s])) * 3600&start=1528041600&end=1528698457&step=9000') # we either need to escape "prd" with \"prd\" or use ' ' for the outer string wrapping
 
 json_raw <- GET(url = DOM_URL)
@@ -140,7 +140,7 @@ Now we need to parse the content we received from the request to something we ca
 
 Let's parse it. `httr` offers a couple of convenient shortcuts here. We can parse the JSON as a `String` (with `as = "text"`) and then process it with `jsonlite::fromJSON`. ~~Or we can instantly parse it to "parsed"" JSON with 1 line.~~ (Not working properly for me, yet)
 
-```{r}
+```{r eval=FALSE}
 # as = "text"
 json_parsed <- content(json_raw, as = "text") # simple, for follow-up with jsonlite::fromJSON()
 # str(json_parsed)
@@ -166,7 +166,7 @@ json_parsed <- content(json_raw, as = "text") # simple, for follow-up with jsonl
 
 Now - either on the JSON string or the JSON object (list of lists) - we just need to `%>% as.tibble()`
 
-```{r}
+```{r eval=FALSE}
 json_object <- jsonlite::fromJSON(json_parsed) # (if parsed with 'as = "text"')
 json_object$data$result$values[[1]] %>% as.tibble() -> json_dirty
 # json_object$data$result[[1]][[2]] %>% as.tibble() -> json_dirty # not working, yet
@@ -178,7 +178,7 @@ As both columns/variables are coded as character strings - and we want to have t
 
 ## Tidy Date \#1 with lubridate
 
-```{r}
+```{r eval=FALSE}
 json_dirty %>%
   mutate(V1 = lubridate::as_datetime(as.numeric(V1)), # first to int, then to date
          V2 = as.numeric(V2)) -> json_tidy
@@ -189,7 +189,7 @@ However, we can simplify this **even further**!
 
 ## Tidy Date #2: type_convert() to the Rescue / Two Lines, Pt. 2
 
-```{r}
+```{r eval=FALSE}
 # json_object <- jsonlite::fromJSON(json_parsed)
 json_object$data$result$values[[1]] %>% as.tibble() %>% type_convert() -> json_dirty
 head(json_dirty, 5) # > int & dbl
@@ -197,7 +197,7 @@ head(json_dirty, 5) # > int & dbl
 
 Now the date & time / `POSIX` column:
 
-```{r}
+```{r eval=FALSE}
 json_dirty %>%
   mutate(V1 = lubridate::as_datetime((V1))) -> json_tidy
 head(json_tidy) # > V1 == <dttm>
@@ -211,21 +211,21 @@ head(json_tidy) # > V1 == <dttm>
 
 but `rename()` seems more efficient here.
 
-```{r}
+```{r eval=FALSE}
 json_tidy %>% rename(date = V1, repos = V2) -> json_tidy
 ```
 
 
 # Plots
 ## Hourly # of Repos migrated from GitHub to GitLab
-```{r}
+```{r eval=FALSE}
 json_tidy %>%
   ggplot(aes(x = date, y = repos)) +
   geom_line()
 ```
 
 ## Total # of Repos, cumulated over Time
-```{r}
+```{r eval=FALSE}
 json_tidy %>% 
   ggplot(aes(x = date, y = repos)) + 
     geom_line(aes(y = cumsum(repos)))
@@ -241,7 +241,7 @@ Same procedure as above:
     
 **GET the Query**
 
-```{r}
+```{r eval=FALSE}
 DOM_URL_rates <- parse_url('https://monitor.gitlab.net/api/datasources/proxy/2/api/v1/query_range?query=sum(rate(github_importer_rate_limit_hits%7Benvironment%3D%22prd%22%7D%5B3600s%5D))%20*%203600&start=1528041600&end=1528698457&step=3600') # we either need to escape "prd" with \"prd\" or use ' ' for the outer string wrapping
 json_rates <- GET(url = DOM_URL_rates)
 # http_status(json_rates)
@@ -254,7 +254,7 @@ Now that we know how deal with the JSON output we can actually do the processing
 
 > Technically, without intending this would fit in two lines of code :)
 
-```{r}
+```{r eval=FALSE}
 json_rates <- content(json_rates, "text", encoding = "UTF-8") # UTF-8 == default
 jsonlite::fromJSON(json_rates)$data$result$values[[1]] %>%
   as.tibble() %>% 
@@ -264,7 +264,7 @@ jsonlite::fromJSON(json_rates)$data$result$values[[1]] %>%
 ```
 
 ## Plot # of Repos & GitHub API Rate Limit Hits
-```{r}
+```{r eval=FALSE}
 ggplot() +
   geom_line(data = json_tidy, aes(x = date, y = repos), color = "blue") +
   geom_line(data = json_rates, aes(x = date, y = limit_hits), color = "red")

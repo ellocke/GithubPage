@@ -283,59 +283,62 @@ Dur
 <h2><span class="header-section-number">1.2</span> Skim / Preview the Data</h2>
 <p>The skimr-Package - among others - is great for quickly inspecting what kind of data (variables, data type, NAs etc.) you get.</p>
 <pre class="r"><code>skimr::skim_to_wide(noten_raw) %&gt;% knitr::kable(&quot;html&quot;, 2)</code></pre>
+<pre><code>## Warning: &#39;skimr::skim_to_wide&#39; is deprecated.
+## Use &#39;skim()&#39; instead.
+## See help(&quot;Deprecated&quot;)</code></pre>
 <table>
 <thead>
 <tr>
 <th style="text-align:left;">
-type
+skim_type
 </th>
 <th style="text-align:left;">
-variable
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+character.min
+</th>
+<th style="text-align:right;">
+character.max
+</th>
+<th style="text-align:right;">
+character.empty
+</th>
+<th style="text-align:right;">
+character.n_unique
+</th>
+<th style="text-align:right;">
+character.whitespace
+</th>
+<th style="text-align:right;">
+numeric.mean
+</th>
+<th style="text-align:right;">
+numeric.sd
+</th>
+<th style="text-align:right;">
+numeric.p0
+</th>
+<th style="text-align:right;">
+numeric.p25
+</th>
+<th style="text-align:right;">
+numeric.p50
+</th>
+<th style="text-align:right;">
+numeric.p75
+</th>
+<th style="text-align:right;">
+numeric.p100
 </th>
 <th style="text-align:left;">
-missing
-</th>
-<th style="text-align:left;">
-complete
-</th>
-<th style="text-align:left;">
-n
-</th>
-<th style="text-align:left;">
-min
-</th>
-<th style="text-align:left;">
-max
-</th>
-<th style="text-align:left;">
-empty
-</th>
-<th style="text-align:left;">
-n_unique
-</th>
-<th style="text-align:left;">
-mean
-</th>
-<th style="text-align:left;">
-sd
-</th>
-<th style="text-align:left;">
-p0
-</th>
-<th style="text-align:left;">
-p25
-</th>
-<th style="text-align:left;">
-p50
-</th>
-<th style="text-align:left;">
-p75
-</th>
-<th style="text-align:left;">
-p100
-</th>
-<th style="text-align:left;">
-hist
+numeric.hist
 </th>
 </tr>
 </thead>
@@ -347,368 +350,50 @@ character
 <td style="text-align:left;">
 AZ
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-7
-</td>
-<td style="text-align:left;">
-7
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-Dur
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-5.83
-</td>
-<td style="text-align:left;">
-2.01
-</td>
-<td style="text-align:left;">
-1.42
-</td>
-<td style="text-align:left;">
-4.28
-</td>
-<td style="text-align:left;">
-5.57
-</td>
-<td style="text-align:left;">
-7.28
-</td>
-<td style="text-align:left;">
-11
-</td>
-<td style="text-align:left;">
-▁▅▇▆▆▅▂▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-OR_I
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-5.92
-</td>
-<td style="text-align:left;">
-2.77
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-5
-</td>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-▆▇▃▅▂▂▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-OR_II
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-5.57
-</td>
-<td style="text-align:left;">
-2.57
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-5
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 7
 </td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-▃▇▅▇▅▁▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-S_I
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-5.9
-</td>
-<td style="text-align:left;">
-2.91
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-3
-</td>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:left;">
-15
-</td>
-<td style="text-align:left;">
-▂▇▆▅▂▃▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-S_II
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-5.58
-</td>
-<td style="text-align:left;">
-2.95
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-3
-</td>
-<td style="text-align:left;">
-5
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 7
 </td>
-<td style="text-align:left;">
-16
-</td>
-<td style="text-align:left;">
-▃▇▆▅▂▁▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-WPF
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 263
 </td>
-<td style="text-align:left;">
-263
+<td style="text-align:right;">
+0
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
 NA
 </td>
 <td style="text-align:left;">
 NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-5.95
-</td>
-<td style="text-align:left;">
-2.77
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-▂▇▃▆▅▁▁▁
 </td>
 </tr>
 <tr>
@@ -718,50 +403,50 @@ numeric
 <td style="text-align:left;">
 Z_I
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-6.18
-</td>
-<td style="text-align:left;">
-2.87
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
-<td style="text-align:left;">
-4
+<td style="text-align:right;">
+NA
 </td>
-<td style="text-align:left;">
-6
+<td style="text-align:right;">
+NA
 </td>
-<td style="text-align:left;">
-8
+<td style="text-align:right;">
+NA
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6.18
+</td>
+<td style="text-align:right;">
+2.87
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+6.00
+</td>
+<td style="text-align:right;">
+8.00
+</td>
+<td style="text-align:right;">
 15
 </td>
 <td style="text-align:left;">
-▃▆▇▆▂▂▁▁
+▃▇▆▂▁
 </td>
 </tr>
 <tr>
@@ -771,50 +456,368 @@ numeric
 <td style="text-align:left;">
 Z_II
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-263
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-5.72
-</td>
-<td style="text-align:left;">
-2.77
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
-<td style="text-align:left;">
-4
+<td style="text-align:right;">
+NA
 </td>
-<td style="text-align:left;">
-5
+<td style="text-align:right;">
+NA
 </td>
-<td style="text-align:left;">
-7
+<td style="text-align:right;">
+NA
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.72
+</td>
+<td style="text-align:right;">
+2.77
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+5.00
+</td>
+<td style="text-align:right;">
+7.00
+</td>
+<td style="text-align:right;">
 14
 </td>
 <td style="text-align:left;">
-▃▇▅▆▃▁▂▁
+▃▇▃▂▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+S_I
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.90
+</td>
+<td style="text-align:right;">
+2.91
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+3.00
+</td>
+<td style="text-align:right;">
+6.00
+</td>
+<td style="text-align:right;">
+8.00
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+▆▇▆▃▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+S_II
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.58
+</td>
+<td style="text-align:right;">
+2.95
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+3.00
+</td>
+<td style="text-align:right;">
+5.00
+</td>
+<td style="text-align:right;">
+7.00
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:left;">
+▆▇▅▂▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+OR_I
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.92
+</td>
+<td style="text-align:right;">
+2.77
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+5.00
+</td>
+<td style="text-align:right;">
+8.00
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+▇▆▆▂▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+OR_II
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.57
+</td>
+<td style="text-align:right;">
+2.57
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+5.00
+</td>
+<td style="text-align:right;">
+7.00
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+▅▇▃▂▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+WPF
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.95
+</td>
+<td style="text-align:right;">
+2.77
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+6.00
+</td>
+<td style="text-align:right;">
+8.00
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+▅▇▅▃▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+Dur
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.83
+</td>
+<td style="text-align:right;">
+2.01
+</td>
+<td style="text-align:right;">
+1.42
+</td>
+<td style="text-align:right;">
+4.28
+</td>
+<td style="text-align:right;">
+5.57
+</td>
+<td style="text-align:right;">
+7.28
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+▂▇▇▅▁
 </td>
 </tr>
 </tbody>
@@ -1173,59 +1176,62 @@ Dur
 </tbody>
 </table>
 <pre class="r"><code>skimr::skim_to_wide(noten_raw_2018) %&gt;% knitr::kable(&quot;html&quot;, 2)</code></pre>
+<pre><code>## Warning: &#39;skimr::skim_to_wide&#39; is deprecated.
+## Use &#39;skim()&#39; instead.
+## See help(&quot;Deprecated&quot;)</code></pre>
 <table>
 <thead>
 <tr>
 <th style="text-align:left;">
-type
+skim_type
 </th>
 <th style="text-align:left;">
-variable
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+character.min
+</th>
+<th style="text-align:right;">
+character.max
+</th>
+<th style="text-align:right;">
+character.empty
+</th>
+<th style="text-align:right;">
+character.n_unique
+</th>
+<th style="text-align:right;">
+character.whitespace
+</th>
+<th style="text-align:right;">
+numeric.mean
+</th>
+<th style="text-align:right;">
+numeric.sd
+</th>
+<th style="text-align:right;">
+numeric.p0
+</th>
+<th style="text-align:right;">
+numeric.p25
+</th>
+<th style="text-align:right;">
+numeric.p50
+</th>
+<th style="text-align:right;">
+numeric.p75
+</th>
+<th style="text-align:right;">
+numeric.p100
 </th>
 <th style="text-align:left;">
-missing
-</th>
-<th style="text-align:left;">
-complete
-</th>
-<th style="text-align:left;">
-n
-</th>
-<th style="text-align:left;">
-min
-</th>
-<th style="text-align:left;">
-max
-</th>
-<th style="text-align:left;">
-empty
-</th>
-<th style="text-align:left;">
-n_unique
-</th>
-<th style="text-align:left;">
-mean
-</th>
-<th style="text-align:left;">
-sd
-</th>
-<th style="text-align:left;">
-p0
-</th>
-<th style="text-align:left;">
-p25
-</th>
-<th style="text-align:left;">
-p50
-</th>
-<th style="text-align:left;">
-p75
-</th>
-<th style="text-align:left;">
-p100
-</th>
-<th style="text-align:left;">
-hist
+numeric.hist
 </th>
 </tr>
 </thead>
@@ -1237,368 +1243,50 @@ character
 <td style="text-align:left;">
 AZ
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-277
+<td style="text-align:right;">
+1
 </td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 7
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 7
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 277
 </td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-Dur
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-276
-</td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-6.01
-</td>
-<td style="text-align:left;">
-1.9
-</td>
-<td style="text-align:left;">
-2.42
-</td>
-<td style="text-align:left;">
-4.57
-</td>
-<td style="text-align:left;">
-5.85
-</td>
-<td style="text-align:left;">
-7.28
-</td>
-<td style="text-align:left;">
-12.14
-</td>
-<td style="text-align:left;">
-▃▇▇▇▅▂▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-ÖR_I
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-277
+<td style="text-align:right;">
+NA
 </td>
-<td style="text-align:left;">
-277
+<td style="text-align:right;">
+NA
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
 NA
 </td>
 <td style="text-align:left;">
 NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-6.3
-</td>
-<td style="text-align:left;">
-2.93
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:left;">
-16
-</td>
-<td style="text-align:left;">
-▆▇▇▆▂▂▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-ÖR_II
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-5.97
-</td>
-<td style="text-align:left;">
-2.33
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:left;">
-13
-</td>
-<td style="text-align:left;">
-▂▆▆▇▃▃▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-S_I
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-276
-</td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-5.81
-</td>
-<td style="text-align:left;">
-2.49
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-7
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-▂▆▃▇▃▁▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-S_II
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-6.12
-</td>
-<td style="text-align:left;">
-2.82
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-▂▇▅▇▆▂▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-WPF
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-2.91
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:left;">
-16
-</td>
-<td style="text-align:left;">
-▃▇▇▇▅▁▁▁
 </td>
 </tr>
 <tr>
@@ -1608,50 +1296,50 @@ numeric
 <td style="text-align:left;">
 Z_I
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-5.54
-</td>
-<td style="text-align:left;">
-2.71
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
-<td style="text-align:left;">
-3
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.54
+</td>
+<td style="text-align:right;">
+2.71
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+3.00
+</td>
+<td style="text-align:right;">
+5.00
+</td>
+<td style="text-align:right;">
+7.00
+</td>
+<td style="text-align:right;">
+14.00
 </td>
 <td style="text-align:left;">
-5
-</td>
-<td style="text-align:left;">
-7
-</td>
-<td style="text-align:left;">
-14
-</td>
-<td style="text-align:left;">
-▃▇▃▆▃▁▁▁
+▅▇▃▂▁
 </td>
 </tr>
 <tr>
@@ -1661,50 +1349,368 @@ numeric
 <td style="text-align:left;">
 Z_II
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-277
+<td style="text-align:right;">
+1
 </td>
-<td style="text-align:left;">
-277
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 NA
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 NA
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 NA
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 NA
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
 6.32
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 3.15
 </td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+6.00
+</td>
+<td style="text-align:right;">
+8.00
+</td>
+<td style="text-align:right;">
+14.00
+</td>
 <td style="text-align:left;">
+▂▇▆▃▂
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+S_I
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.81
+</td>
+<td style="text-align:right;">
+2.49
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+6.00
+</td>
+<td style="text-align:right;">
+7.00
+</td>
+<td style="text-align:right;">
+14.00
+</td>
+<td style="text-align:left;">
+▂▇▃▂▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+S_II
+</td>
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-4
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6.12
+</td>
+<td style="text-align:right;">
+2.82
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+6.00
+</td>
+<td style="text-align:right;">
+8.00
+</td>
+<td style="text-align:right;">
+14.00
 </td>
 <td style="text-align:left;">
-6
+▃▇▅▃▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
 </td>
 <td style="text-align:left;">
-8
+ÖR_I
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6.30
+</td>
+<td style="text-align:right;">
+2.93
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+6.00
+</td>
+<td style="text-align:right;">
+8.00
+</td>
+<td style="text-align:right;">
+16.00
 </td>
 <td style="text-align:left;">
-14
+▇▇▆▂▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
 </td>
 <td style="text-align:left;">
-▁▆▇▇▃▃▃▁
+ÖR_II
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5.97
+</td>
+<td style="text-align:right;">
+2.33
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+6.00
+</td>
+<td style="text-align:right;">
+8.00
+</td>
+<td style="text-align:right;">
+13.00
+</td>
+<td style="text-align:left;">
+▃▆▇▂▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+WPF
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6.00
+</td>
+<td style="text-align:right;">
+2.91
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+6.00
+</td>
+<td style="text-align:right;">
+8.00
+</td>
+<td style="text-align:right;">
+16.00
+</td>
+<td style="text-align:left;">
+▇▇▆▁▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+Dur
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6.01
+</td>
+<td style="text-align:right;">
+1.90
+</td>
+<td style="text-align:right;">
+2.42
+</td>
+<td style="text-align:right;">
+4.57
+</td>
+<td style="text-align:right;">
+5.85
+</td>
+<td style="text-align:right;">
+7.28
+</td>
+<td style="text-align:right;">
+12.14
+</td>
+<td style="text-align:left;">
+▅▇▆▂▁
 </td>
 </tr>
 </tbody>

@@ -227,21 +227,6 @@ gapminder::gapminder %>%
 
 **R Markdown / Chunk**
 
-
-```{r}
-# {r echo=FALSE}
-blogdown::shortcode('tweet', '852205086956818432')
-```
-
-### Own reply-only Tweet shortcode
-
-Cf. https://www.mgasch.com/post/shortcodes/
-
-```{r}
-# {r echo=FALSE}
-blogdown::shortcode('tweet-noreply', '1096850367609032705')
-```
-
 ## Widgets
 
 > See ["Demo: Blogdown Madness with htmlwidgets"](/post/r-demo-blogdown-madness-with-htmlwidgets/)

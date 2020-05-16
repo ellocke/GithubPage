@@ -6,11 +6,8 @@ enableRobotsTXT = true
 enableEmoji = true
 theme = "even-fubits-mod-submodule"
 relativeurls = true
-
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$", "\\.csv$", "\\.rda$", "\\.tif$", "\\.rds$", "\\.RData$"]
-
 publishDir = "../ellocke.github.io/"
-
 preserveTaxonomyNames = true
 hasCJKLanguage = false     # has chinese/japanese/korean ?
 paginate = 5
