@@ -1,0 +1,195 @@
+---
+title: '[R] Wayback Machine - Archive all Links from a Single Website Project'
+author: 'Ilja / fubits'
+date: '2020-05-16'
+slug: 'r-wayback-machine-archive-all-external-links-from-a-single-website-project'
+categories:
+  - Archiving
+  - Open Data
+  - Retrieval
+  - Rstats
+tags:
+  - wayback machine
+  - API
+  - get/post
+  - Rcrawler
+output:
+  blogdown::html_page:
+    number_sections: yes
+    toc: yes
+lastmod: '2020-05-16T19:09:00+02:00'
+description: "Short proof-of-concept on how to batch-archive a set of URLs with Internet Archive's Wayback Machine & R"
+abstract: "Short proof-of-concept on how to batch-archive a set of URLs with Internet Archive's Wayback Machine & R / RCrawler"
+thumbnail: '/img/thumbs/wayback-machine-with-R.png'
+rmdlink: yes
+keywords: []
+comment: no
+autoCollapseToc: no
+postMetaInFooter: no
+hiddenFromHomePage: no
+mathjax: no
+mathjaxEnableSingleDollar: no
+mathjaxEnableAutoNumber: no
+---
+
+> Long time no see, R.... Well, not really, but I've been heads down working on some [larger projects](https://chemicalweapons.gppi.net/){target="_blank"} lately and didn't have the time to blog. 1 of the projects should be published soon (plenty of hill-shading, maps & data viz), 1 is still in the making (something JS-intense with Google Apps Script & [clasp](https://github.com/google/clasp){target="_blank"}), but 1 - which is my biggest gig so far - is [online]((https://chemicalweapons.gppi.net/){target="_blank"}) now with all features (incl. my first-ever [scrollytelling piece](https://chemicalweapons.gppi.net/analysis/the-logic/){target="_blank"}) and will serve as my use case in this post.
+
+# Use Case: Archive All Links from a Single Web Project
+
+!["Success - Batch Archiving external URLs with the Wayback Machine API & R / Rcrawler](/img/wayback_machine/wayback-machine.jpg)
+
+Inspired by a session during this week's **epic** [**csv,conf**](https://csvconf.com/){target="_blank"} remote conference event (really, omg, this experience would have been hard to top even pre-Corona), I wanted to **test how easy it would be to batch-archive a set of external links from a single website project with the Wayback Machine API & R**. In her talk on "[Data Archival from a journalist's perspective](https://csvconf.com/speakers/#soila-kenya){target="_blank"}, Soila Kenya discussed the necessity and ways to preserve web content esp. in the case of interactive pieces (i.e. by screen-capturing in the same manner as Gamers do in Minecraft!). 
+
+GPPI's research on Chemical Weapons is evidence-heavy (closed and open sources), and while almost all links in the [CSV dataset](https://chemicalweapons.gppi.net/data-portal/){target="_blank"} have already been archived, most of the external (=outbound) web links weren't. As websites are constantly relaunched and link rot **is** a thing, that's a purrrfect reason to get started with 
+
+So what's to do. As R users we are usually blessed with a legion of user-friendly wrapper packages for most of our use cases. But in the case of Internet Archive's [Wayback Machine API] I was a bit surprised. There seems to be one actively maintained package on CRAN (rOpenSci's [`internetarchive`](https://github.com/ropensci/internetarchive){target="_blank"}), but it "only" allows to search and download archived content, not add your own. Short of starting to write my first package, I tried to figure what's already possible with the given set of options.
+
+# Theory: Crawl - Extract - Archive
+
+In theory, the approach is a simple 3-step process:
+
+1. **crawl** all (or a subset of) pages of a single website / web project (let's assume HTML content; but there are solutions for dynamic / JS-rendered content)
+2. **extract** all (or a subset of) external / outbound URLs (http/https)
+3. **archive** each external URL with a POST request to the Wayback Machine API
+
+Fortunately, [#Rstats-Twitter](https://twitter.com/fubits/status/1261386300977897472?s=20){target="_blank"} is always there to help out and [Peter Meissner](https://twitter.com/peterlovesdata/status/1261397322166087682){target="_blank"} hinted with Salim Khalil's [`RCrawler`](https://github.com/salimk/Rcrawler){target="_blank"} package at me (cf. [Khalil/Fakir 2017](https://www.sciencedirect.com/science/article/pii/S2352711017300110){target="_blank"}).
+
+# "Minimal Viable Demo" - fetchURLs(target) & archiveURLs(URLs)
+
+`Rcrawler`'s syntax might seem a bit unorthodox but the package is really feature-rich and we can actually solve Step 1 & 2 with it (and purrr). Then, all we have to do is to figure how to sent a POST request to the Wayback API, and can then work on refining and parallelization.
+
+## Setup
+
+```{r message=FALSE, eval=FALSE}
+library(tidyverse)
+library(Rcrawler)
+
+# use all CPU cores (~threads) minus 1 to parallelize scraping
+cores = parallel::detectCores() - 1
+print(paste0("CPU threads available: ", cores))
+```
+
+## fetchURLs(url) - Function to crawl & scrape a single Website
+
+> Rcrawler() implicitly returns 2 objects to the global environment. We need the INDEX object which will contain our target website's 
+
+```{r eval=FALSE}
+fetchURLs <- function(url, ignoreStrings = NULL) {
+  
+  # Crawl our target website's pages
+  Rcrawler(
+    Website = url,
+    no_cores = cores,
+    no_conn = 8, # don't abuse this ;)
+    saveOnDisk = FALSE # we don't the the HTML files of our own website
+  )
+  
+  # extract external URLs from each scraped page
+  urls <- purrr::map(INDEX$Url, ~ LinkExtractor(.x,
+                                                ExternalLInks = TRUE,
+                                                removeAllparams = TRUE))
+  
+  #  only keep external links
+  urls_df <- urls %>%
+    rvest::pluck("ExternalLinks") %>%
+    map_df
+  
+  # helper: optional vector with string/Regex expressions to filter out specific unwanted links
+  if (!is.null(ignoreStrings)) {
+    urls_df <- urls_df %>% 
+      filter(!str_detect(`<chr>`,ignoreStrings))
+  }
+  
+  urls_df <- urls_df %>%
+    select(`<chr>`) %>%  # the column which contains the links
+    pull() %>% # we just need a single vector of URLs
+    unique() %>% # keep only unique
+    str_replace("http:", "https:") # make all links https
+  
+  return(urls_df)
+}
+```
+
+## archiveURL() - Function to archive a single URL with a POST request
+
+> TODO: Check first with test `internetarchive` package whether a link has already been archived, and archive only if archived link isn't n days old.
+
+```{r eval=FALSE}
+archiveURL <- function(target_url) {
+  
+  # Wayback Machine API / endpoint
+  endpoint <- "https://pragma.archivelab.org"
+  
+  # the POST request to the API
+  response <- httr::POST(url = endpoint,
+                         body = list(url = target_url),
+                         encode = "json")
+  
+  status_code <- response$status_code
+  
+  # Only archive if POST request was succesfull
+  # TODO: needs more robustness, i.e. some returned paths are not valid
+  # Hypothesis: Not valid because URL was archived recently
+  # TODO: add check whether URL has been archived already
+  
+  if (status_code == 200) {
+    wayback_path <- httr::content(response)$wayback_id # returns path
+    wayback_url <- paste0("https://web.archive.org", wayback_path)
+    print(paste0("Success - Archived: ", target_url))
+  } else {
+    wayback_url <- NULL
+    print(paste0("Error Code: ", status_code, " - couldn't archive ", target_url))
+  }
+  
+  return(wayback_url)
+  
+}
+
+```
+
+## Wrapper function to archive a vector of URLs:
+
+```{r eval=FALSE}
+archiveURLs <- function(urls) {
+  result <- purrr::map_chr(urls, archiveURL) %>% 
+     tibble(wayback_url = .)
+  return(result)
+  }
+```
+
+# Proof-of-Concept - Execution
+
+## Scrape external Links from the project website
+
+> Demo mode: only first 5 links
+
+```{r eval=FALSE}
+
+# target Website
+url <- "https://chemicalweapons.gppi.net"
+unwanted <- c("gppi|GPPi|dadascience|youtube|Youtube")
+
+# scrape external Links & filter a particular string from results
+urls <- fetchURLs(url, ignoreStrings = unwanted) %>%
+  head(5) # Demo to not abuse resources
+```
+
+## Archive external links and save as CSV
+
+> Each archiving step naturally takes some time. Making parallel async calls should be the next step.
+
+```{r eval=FALSE}
+archived_urls <- archiveURLs(urls)
+
+if (!dir.exists("archived")) dir.create("archived")
+write_csv(archived_urls, "archived/archived-urls.csv")
+```
+
+# Questions/TBD
+
++ How to parallelize archival (async calls are not supported by httr it seems, only curl?
++ How to obey quota limitations (with ~setTimeout())?
++ maybe use [`internetarchive_tutorial`](https://ropensci.org/tutorials/internetarchive_tutorial/) to check first whether a URL has already been archived
++ or use generic API GET requests to retrieve URL, status and ID [https://archive.readme.io/docs/website-snapshots]()
+
+That's it for today. Hope this is useful for some! If you have a proof-of-concept for making parallel async GET/POST requests, hit me up!
