@@ -192,7 +192,7 @@ BRRR::skrrrahh("flava")
 
 ## Emojis
 
-```{r}
+```{r eval=FALSE}
 emo::ji("smile")
 ```
 
@@ -211,7 +211,7 @@ skimr::skim_to_wide(mtcars) %>% knitr::kable("html", 2)
 
 ### Better Skimr
 
-```{r}
+```{r eval=FALSE}
 gapminder::gapminder %>% 
   skimr::skim_to_wide() %>%
   select(-top_counts, -(p0:p100)) %>% 

@@ -72,7 +72,7 @@ Here's what the gapminder data looks like. It's a regular `df` with `r nrow(gapm
 gapminder %>% head() %>% knitr::kable("html")
 ```
 
-```{r}
+```{r eval=FALSE}
 gapminder %>% 
   skimr::skim_to_wide() %>%
   select(-top_counts, -(p0:p100)) %>% 
@@ -121,7 +121,7 @@ list.files(csv_path, pattern = "csv$") %>% head(20)
 
 And now a single CSV file:
 
-```{r message=FALSE}
+```{r message=FALSE, eval=FALSE}
 read_csv(fs::path(csv_path, "Afghanistan.csv")) %>% head() %>% knitr::kable("html")
 ```
 
@@ -179,14 +179,14 @@ list.files(json_path, pattern = "json$") %>% head(20)
 
 **inspect the JSON output read in as** `df`
 
-```{r}
+```{r eval=FALSE}
 AFG_JSON <- read_json(fs::path(json_path, "Afghanistan.json"), simplifyVector = TRUE)
 AFG_JSON %>% head() %>% knitr::kable("html")
 ```
 
 **And finally, JSON as pretty JSON**
 
-```{r}
+```{r eval=FALSE}
 toJSON(AFG_JSON[1,], pretty = TRUE) # first observation
 ```
 

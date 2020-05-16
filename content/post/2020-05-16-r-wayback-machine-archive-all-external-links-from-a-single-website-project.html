@@ -1,8 +1,8 @@
 ---
-title: '[R] - Wayback Machine - Archive all Links from a Single Website Project'
+title: '[R] Wayback Machine - Archive all Links from a Single Website Project'
 author: 'Ilja / fubits'
 date: '2020-05-16'
-slug: 'r-wayback-machine-archive-all-external-links-from-a-single-website-project'
+slug: r-wayback-machine-archive-all-external-links-from-a-single-website-project
 categories:
   - Archiving
   - Open Data
@@ -13,11 +13,11 @@ tags:
   - API
   - get/post
   - Rcrawler
-draft: yes
 output:
   blogdown::html_page:
     number_sections: yes
     toc: yes
+draft: no
 lastmod: '2020-05-16T19:09:00+02:00'
 description: "Short proof-of-concept on how to batch-archive a set of URLs with Internet Archive's Wayback Machine & R"
 abstract: "Short proof-of-concept on how to batch-archive a set of URLs with Internet Archive's Wayback Machine & R / RCrawler"
@@ -53,7 +53,7 @@ mathjaxEnableAutoNumber: no
 </div>
 
 <blockquote>
-<p>Long time no see, R…. Well, not really, but I’ve been heads down working on some <a href="https://chemicalweapons.gppi.net/" target="_blank">larger projects</a> lately and didn’t have the time to blog. 1 of the projects should be published soon (plenty of hill-shading, maps &amp; data viz), 1 is still in the making (something JS-intense with Google Apps Script &amp; <a href="https://github.com/google/clasp" target="_blank">clasp</a>), but 1 - which is my biggest gig so far - is <a href="(https://chemicalweapons.gppi.net/)%7Btarget=%22_blank%22%7D">online</a> now with all features (incl. my first-ever <a href="https://chemicalweapons.gppi.net/analysis/the-logic/" target="_blank">scrollytelling piece</a>) and will serve as my use case in this post.</p>
+<p>Long time no see, R…. Well, not really, but I’ve been heads down working on some <a href="https://chemicalweapons.gppi.net/" target="_blank">larger projects</a> lately and didn’t have the time to blog. 1 of the projects should be published soon (plenty of hill-shading, maps &amp; data viz), 1 is still in the making (something JS-intense with Google Apps Script &amp; <a href="https://github.com/google/clasp" target="_blank">clasp</a>), but 1 - which is my biggest gig so far - is <a href="(https://chemicalweapons.gppi.net/)%7Btarget=%22_blank%22%7D">online</a> now with all features (incl. my first-ever <a href="https://chemicalweapons.gppi.net/analysis/the-logic/" target="_blank">scrollytelling implementation</a>) and will serve as my use case in this post.</p>
 </blockquote>
 <div id="use-case-archive-all-links-from-a-single-web-project" class="section level1">
 <h1><span class="header-section-number">1</span> Use Case: Archive All Links from a Single Web Project</h1>
@@ -84,13 +84,14 @@ mathjaxEnableAutoNumber: no
 library(Rcrawler)
 
 # use all CPU cores (~threads) minus 1 to parallelize scraping
-cores = parallel::detectCores() - 1
+cores = (parallel::detectCores() - 1)
 print(paste0(&quot;CPU threads available: &quot;, cores))</code></pre>
+<pre><code>## [1] &quot;CPU threads available: 15&quot;</code></pre>
 </div>
 <div id="fetchurlsurl---function-to-crawl-scrape-a-single-website" class="section level2">
 <h2><span class="header-section-number">3.2</span> fetchURLs(url) - Function to crawl &amp; scrape a single Website</h2>
 <blockquote>
-<p>Rcrawler() implicitly returns 2 objects to the global environment. We need the INDEX object which will contain our target website’s</p>
+<p>Rcrawler() implicitly returns an <code>INDEX</code> objects to the global environment. <code>INDEX$Url</code> contains a list of URLs vectors.</p>
 </blockquote>
 <pre class="r"><code>fetchURLs &lt;- function(url, ignoreStrings = NULL) {
   
@@ -103,14 +104,14 @@ print(paste0(&quot;CPU threads available: &quot;, cores))</code></pre>
   )
   
   # extract external URLs from each scraped page
-  urls &lt;- purrr::map(INDEX$Url, ~ LinkExtractor(.x,
+  urls &lt;- purrr::map(INDEX$Url, ~LinkExtractor(.x,
                                                 ExternalLInks = TRUE,
                                                 removeAllparams = TRUE))
   
   #  only keep external links
   urls_df &lt;- urls %&gt;%
-    rvest::pluck(&quot;ExternalLinks&quot;) %&gt;%
-    map_df
+    rvest::pluck(&quot;ExternalLinks&quot;) %&gt;% 
+    map_df(tibble)
   
   # helper: optional vector with string/Regex expressions to filter out specific unwanted links
   if (!is.null(ignoreStrings)) {

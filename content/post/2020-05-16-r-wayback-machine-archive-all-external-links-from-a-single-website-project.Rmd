@@ -2,7 +2,7 @@
 title: '[R] Wayback Machine - Archive all Links from a Single Website Project'
 author: 'Ilja / fubits'
 date: '2020-05-16'
-slug: 'r-wayback-machine-archive-all-external-links-from-a-single-website-project'
+slug: r-wayback-machine-archive-all-external-links-from-a-single-website-project
 categories:
   - Archiving
   - Open Data
@@ -17,6 +17,7 @@ output:
   blogdown::html_page:
     number_sections: yes
     toc: yes
+draft: no
 lastmod: '2020-05-16T19:09:00+02:00'
 description: "Short proof-of-concept on how to batch-archive a set of URLs with Internet Archive's Wayback Machine & R"
 abstract: "Short proof-of-concept on how to batch-archive a set of URLs with Internet Archive's Wayback Machine & R / RCrawler"
@@ -32,7 +33,7 @@ mathjaxEnableSingleDollar: no
 mathjaxEnableAutoNumber: no
 ---
 
-> Long time no see, R.... Well, not really, but I've been heads down working on some [larger projects](https://chemicalweapons.gppi.net/){target="_blank"} lately and didn't have the time to blog. 1 of the projects should be published soon (plenty of hill-shading, maps & data viz), 1 is still in the making (something JS-intense with Google Apps Script & [clasp](https://github.com/google/clasp){target="_blank"}), but 1 - which is my biggest gig so far - is [online]((https://chemicalweapons.gppi.net/){target="_blank"}) now with all features (incl. my first-ever [scrollytelling piece](https://chemicalweapons.gppi.net/analysis/the-logic/){target="_blank"}) and will serve as my use case in this post.
+> Long time no see, R.... Well, not really, but I've been heads down working on some [larger projects](https://chemicalweapons.gppi.net/){target="_blank"} lately and didn't have the time to blog. 1 of the projects should be published soon (plenty of hill-shading, maps & data viz), 1 is still in the making (something JS-intense with Google Apps Script & [clasp](https://github.com/google/clasp){target="_blank"}), but 1 - which is my biggest gig so far - is [online]((https://chemicalweapons.gppi.net/){target="_blank"}) now with all features (incl. my first-ever [scrollytelling implementation](https://chemicalweapons.gppi.net/analysis/the-logic/){target="_blank"}) and will serve as my use case in this post.
 
 # Use Case: Archive All Links from a Single Web Project
 
@@ -60,18 +61,18 @@ Fortunately, [#Rstats-Twitter](https://twitter.com/fubits/status/126138630097789
 
 ## Setup
 
-```{r message=FALSE, eval=FALSE}
+```{r message=FALSE}
 library(tidyverse)
 library(Rcrawler)
 
 # use all CPU cores (~threads) minus 1 to parallelize scraping
-cores = parallel::detectCores() - 1
+cores = (parallel::detectCores() - 1)
 print(paste0("CPU threads available: ", cores))
 ```
 
 ## fetchURLs(url) - Function to crawl & scrape a single Website
 
-> Rcrawler() implicitly returns 2 objects to the global environment. We need the INDEX object which will contain our target website's 
+> Rcrawler() implicitly returns an `INDEX` objects to the global environment. `INDEX$Url` contains a list of URLs vectors.
 
 ```{r eval=FALSE}
 fetchURLs <- function(url, ignoreStrings = NULL) {
@@ -85,14 +86,14 @@ fetchURLs <- function(url, ignoreStrings = NULL) {
   )
   
   # extract external URLs from each scraped page
-  urls <- purrr::map(INDEX$Url, ~ LinkExtractor(.x,
+  urls <- purrr::map(INDEX$Url, ~LinkExtractor(.x,
                                                 ExternalLInks = TRUE,
                                                 removeAllparams = TRUE))
   
   #  only keep external links
   urls_df <- urls %>%
-    rvest::pluck("ExternalLinks") %>%
-    map_df
+    rvest::pluck("ExternalLinks") %>% 
+    map_df(tibble)
   
   # helper: optional vector with string/Regex expressions to filter out specific unwanted links
   if (!is.null(ignoreStrings)) {

@@ -49,7 +49,6 @@ sequenceDiagrams:
 <li><a href="#skimr">Skimr</a></li>
 <li><a href="#better-skimr">Better Skimr</a></li>
 <li><a href="#tweets">Tweets</a></li>
-<li><a href="#own-reply-only-tweet-shortcode">Own reply-only Tweet shortcode</a></li>
 </ul></li>
 <li><a href="#widgets">Widgets</a></li>
 <li><a href="#debugging">Debugging</a><ul>
@@ -155,7 +154,6 @@ Selected visuals from the “Nowhere to Hide” study on the use of Chemical Wea
 <div id="emojis" class="section level2">
 <h2>Emojis</h2>
 <pre class="r"><code>emo::ji(&quot;smile&quot;)</code></pre>
-<pre><code>## &lt;U+0001F604&gt;</code></pre>
 <p>As inline <code>'r emo::ji("smile")'</code></p>
 <p>(full list: <a href="https://github.com/hadley/emo">https://github.com/hadley/emo</a>)</p>
 </div>
@@ -165,47 +163,47 @@ Selected visuals from the “Nowhere to Hide” study on the use of Chemical Wea
 <h3>Skimr</h3>
 <pre class="r"><code># options(knitr.table.format = &quot;html&quot;) OR
 skimr::skim_to_wide(mtcars) %&gt;% knitr::kable(&quot;html&quot;, 2)</code></pre>
+<pre><code>## Warning: &#39;skimr::skim_to_wide&#39; is deprecated.
+## Use &#39;skim()&#39; instead.
+## See help(&quot;Deprecated&quot;)</code></pre>
 <table>
 <thead>
 <tr>
 <th style="text-align:left;">
-type
+skim_type
 </th>
 <th style="text-align:left;">
-variable
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+numeric.mean
+</th>
+<th style="text-align:right;">
+numeric.sd
+</th>
+<th style="text-align:right;">
+numeric.p0
+</th>
+<th style="text-align:right;">
+numeric.p25
+</th>
+<th style="text-align:right;">
+numeric.p50
+</th>
+<th style="text-align:right;">
+numeric.p75
+</th>
+<th style="text-align:right;">
+numeric.p100
 </th>
 <th style="text-align:left;">
-missing
-</th>
-<th style="text-align:left;">
-complete
-</th>
-<th style="text-align:left;">
-n
-</th>
-<th style="text-align:left;">
-mean
-</th>
-<th style="text-align:left;">
-sd
-</th>
-<th style="text-align:left;">
-p0
-</th>
-<th style="text-align:left;">
-p25
-</th>
-<th style="text-align:left;">
-p50
-</th>
-<th style="text-align:left;">
-p75
-</th>
-<th style="text-align:left;">
-p100
-</th>
-<th style="text-align:left;">
-hist
+numeric.hist
 </th>
 </tr>
 </thead>
@@ -215,81 +213,37 @@ hist
 numeric
 </td>
 <td style="text-align:left;">
-am
+mpg
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-0.41
-</td>
-<td style="text-align:left;">
-0.5
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
-<td style="text-align:left;">
-1
+<td style="text-align:right;">
+20.09
+</td>
+<td style="text-align:right;">
+6.03
+</td>
+<td style="text-align:right;">
+10.40
+</td>
+<td style="text-align:right;">
+15.43
+</td>
+<td style="text-align:right;">
+19.20
+</td>
+<td style="text-align:right;">
+22.80
+</td>
+<td style="text-align:right;">
+33.90
 </td>
 <td style="text-align:left;">
-▇▁▁▁▁▁▁▆
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-carb
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-2.81
-</td>
-<td style="text-align:left;">
-1.62
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:left;">
-▆▇▂▇▁▁▁▁
+▃▇▅▁▂
 </td>
 </tr>
 <tr>
@@ -299,38 +253,35 @@ numeric
 <td style="text-align:left;">
 cyl
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-32
+<td style="text-align:right;">
+1
 </td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 6.19
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1.79
 </td>
-<td style="text-align:left;">
-4
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+6.00
+</td>
+<td style="text-align:right;">
+8.00
+</td>
+<td style="text-align:right;">
+8.00
 </td>
 <td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:left;">
-▆▁▁▃▁▁▁▇
+▆▁▃▁▇
 </td>
 </tr>
 <tr>
@@ -340,120 +291,35 @@ numeric
 <td style="text-align:left;">
 disp
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-32
+<td style="text-align:right;">
+1
 </td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 230.72
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 123.94
 </td>
-<td style="text-align:left;">
-71.1
+<td style="text-align:right;">
+71.10
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 120.83
 </td>
-<td style="text-align:left;">
-196.3
+<td style="text-align:right;">
+196.30
+</td>
+<td style="text-align:right;">
+326.00
+</td>
+<td style="text-align:right;">
+472.00
 </td>
 <td style="text-align:left;">
-326
-</td>
-<td style="text-align:left;">
-472
-</td>
-<td style="text-align:left;">
-▇▆▁▂▅▃▁▂
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-drat
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-3.6
-</td>
-<td style="text-align:left;">
-0.53
-</td>
-<td style="text-align:left;">
-2.76
-</td>
-<td style="text-align:left;">
-3.08
-</td>
-<td style="text-align:left;">
-3.7
-</td>
-<td style="text-align:left;">
-3.92
-</td>
-<td style="text-align:left;">
-4.93
-</td>
-<td style="text-align:left;">
-▃▇▁▅▇▂▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-gear
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-3.69
-</td>
-<td style="text-align:left;">
-0.74
-</td>
-<td style="text-align:left;">
-3
-</td>
-<td style="text-align:left;">
-3
-</td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:left;">
-5
-</td>
-<td style="text-align:left;">
-▇▁▁▆▁▁▁▂
+▇▃▃▃▂
 </td>
 </tr>
 <tr>
@@ -463,79 +329,35 @@ numeric
 <td style="text-align:left;">
 hp
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-32
+<td style="text-align:right;">
+1
 </td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 146.69
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 68.56
 </td>
-<td style="text-align:left;">
-52
+<td style="text-align:right;">
+52.00
+</td>
+<td style="text-align:right;">
+96.50
+</td>
+<td style="text-align:right;">
+123.00
+</td>
+<td style="text-align:right;">
+180.00
+</td>
+<td style="text-align:right;">
+335.00
 </td>
 <td style="text-align:left;">
-96.5
-</td>
-<td style="text-align:left;">
-123
-</td>
-<td style="text-align:left;">
-180
-</td>
-<td style="text-align:left;">
-335
-</td>
-<td style="text-align:left;">
-▃▇▃▅▂▃▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-mpg
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-20.09
-</td>
-<td style="text-align:left;">
-6.03
-</td>
-<td style="text-align:left;">
-10.4
-</td>
-<td style="text-align:left;">
-15.43
-</td>
-<td style="text-align:left;">
-19.2
-</td>
-<td style="text-align:left;">
-22.8
-</td>
-<td style="text-align:left;">
-33.9
-</td>
-<td style="text-align:left;">
-▃▇▇▇▃▂▂▂
+▇▇▆▃▁
 </td>
 </tr>
 <tr>
@@ -543,81 +365,37 @@ mpg
 numeric
 </td>
 <td style="text-align:left;">
-qsec
+drat
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-17.85
-</td>
-<td style="text-align:left;">
-1.79
-</td>
-<td style="text-align:left;">
-14.5
-</td>
-<td style="text-align:left;">
-16.89
-</td>
-<td style="text-align:left;">
-17.71
-</td>
-<td style="text-align:left;">
-18.9
-</td>
-<td style="text-align:left;">
-22.9
-</td>
-<td style="text-align:left;">
-▃▂▇▆▃▃▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-vs
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
-0.44
-</td>
-<td style="text-align:left;">
-0.5
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1
 </td>
-<td style="text-align:left;">
-1
+<td style="text-align:right;">
+3.60
+</td>
+<td style="text-align:right;">
+0.53
+</td>
+<td style="text-align:right;">
+2.76
+</td>
+<td style="text-align:right;">
+3.08
+</td>
+<td style="text-align:right;">
+3.70
+</td>
+<td style="text-align:right;">
+3.92
+</td>
+<td style="text-align:right;">
+4.93
 </td>
 <td style="text-align:left;">
-▇▁▁▁▁▁▁▆
+▇▃▇▅▁
 </td>
 </tr>
 <tr>
@@ -627,38 +405,225 @@ numeric
 <td style="text-align:left;">
 wt
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0
 </td>
-<td style="text-align:left;">
-32
+<td style="text-align:right;">
+1
 </td>
-<td style="text-align:left;">
-32
-</td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 3.22
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 0.98
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 1.51
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 2.58
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 3.33
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 3.61
 </td>
-<td style="text-align:left;">
+<td style="text-align:right;">
 5.42
 </td>
 <td style="text-align:left;">
-▃▃▃▇▆▁▁▂
+▃▃▇▁▂
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+qsec
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+17.85
+</td>
+<td style="text-align:right;">
+1.79
+</td>
+<td style="text-align:right;">
+14.50
+</td>
+<td style="text-align:right;">
+16.89
+</td>
+<td style="text-align:right;">
+17.71
+</td>
+<td style="text-align:right;">
+18.90
+</td>
+<td style="text-align:right;">
+22.90
+</td>
+<td style="text-align:left;">
+▃▇▇▂▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+vs
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.44
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+▇▁▁▁▆
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+am
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+▇▁▁▁▆
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+gear
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3.69
+</td>
+<td style="text-align:right;">
+0.74
+</td>
+<td style="text-align:right;">
+3.00
+</td>
+<td style="text-align:right;">
+3.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+5.00
+</td>
+<td style="text-align:left;">
+▇▁▆▁▂
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+carb
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2.81
+</td>
+<td style="text-align:right;">
+1.62
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+8.00
+</td>
+<td style="text-align:left;">
+▇▂▅▁▁
 </td>
 </tr>
 </tbody>
@@ -670,252 +635,12 @@ wt
   skimr::skim_to_wide() %&gt;%
   select(-top_counts, -(p0:p100)) %&gt;% 
   knitr::kable(&quot;html&quot;, 1)</code></pre>
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-type
-</th>
-<th style="text-align:left;">
-variable
-</th>
-<th style="text-align:left;">
-missing
-</th>
-<th style="text-align:left;">
-complete
-</th>
-<th style="text-align:left;">
-n
-</th>
-<th style="text-align:left;">
-n_unique
-</th>
-<th style="text-align:left;">
-ordered
-</th>
-<th style="text-align:left;">
-mean
-</th>
-<th style="text-align:left;">
-sd
-</th>
-<th style="text-align:left;">
-hist
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-factor
-</td>
-<td style="text-align:left;">
-continent
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-5
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-factor
-</td>
-<td style="text-align:left;">
-country
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-142
-</td>
-<td style="text-align:left;">
-FALSE
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-integer
-</td>
-<td style="text-align:left;">
-pop
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-3e+07
-</td>
-<td style="text-align:left;">
-1.1e+08
-</td>
-<td style="text-align:left;">
-▇▁▁▁▁▁▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-integer
-</td>
-<td style="text-align:left;">
-year
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-1979.5
-</td>
-<td style="text-align:left;">
-17.27
-</td>
-<td style="text-align:left;">
-▇▃▇▃▃▇▃▇
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-gdpPercap
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-7215.33
-</td>
-<td style="text-align:left;">
-9857.45
-</td>
-<td style="text-align:left;">
-▇▁▁▁▁▁▁▁
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-numeric
-</td>
-<td style="text-align:left;">
-lifeExp
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-1704
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-59.47
-</td>
-<td style="text-align:left;">
-12.92
-</td>
-<td style="text-align:left;">
-▁▂▅▅▅▅▇▃
-</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div id="tweets" class="section level3">
 <h3>Tweets</h3>
 <p><strong>Shortcode</strong></p>
 <p>{{ if not .Site.IsServer }} {{&lt; tweet 981532034106576901 &gt;}}</p>
 <p><strong>R Markdown / Chunk</strong></p>
-<pre class="r"><code># {r echo=FALSE}
-blogdown::shortcode(&#39;tweet&#39;, &#39;852205086956818432&#39;)</code></pre>
-{{% tweet "852205086956818432" %}}
-</div>
-<div id="own-reply-only-tweet-shortcode" class="section level3">
-<h3>Own reply-only Tweet shortcode</h3>
-<p>Cf. <a href="https://www.mgasch.com/post/shortcodes/" class="uri">https://www.mgasch.com/post/shortcodes/</a></p>
-<pre class="r"><code># {r echo=FALSE}
-blogdown::shortcode(&#39;tweet-noreply&#39;, &#39;1096850367609032705&#39;)</code></pre>
-{{% tweet-noreply "1096850367609032705" %}}
 </div>
 </div>
 <div id="widgets" class="section level2">
