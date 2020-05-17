@@ -63,7 +63,7 @@ mathjaxEnableAutoNumber: no
 </div>
 <p>Inspired by a session during this week’s <strong>epic</strong> <a href="https://csvconf.com/" target="_blank"><strong>csv,conf v5</strong></a> remote conference event (really, omg, this experience would have been hard to top even pre-Corona), I wanted to <strong>test how easy it would be to batch-archive a set of external links from a single website project with the Wayback Machine API &amp; R</strong>. In her talk on “<a href="https://csvconf.com/speakers/#soila-kenya" target="_blank">Data Archival from a journalist’s perspective</a>”, Soila Kenya discussed the necessity and ways to preserve web content esp. in the case of interactive pieces (i.e. by screen-capturing the user journey in the same manner as Gamers do in Minecraft!).</p>
 <p>The web project’s core - GPPI’s rigorous research on Chemical Weapons attacks in Syria - is evidence-heavy (closed and open sources), and while almost all links in the <a href="https://chemicalweapons.gppi.net/data-portal/" target="_blank">CSV dataset</a> have already been archived, most of the external (=outbound) web links weren’t. As websites are constantly re-designed and re-structured, link rot <strong>is</strong> a thing. Isn’t that a <code>purrrfect</code> reason to get started with using the Wayback Machine API?</p>
-<p>So what’s to do? As R users we are usually blessed with a legion of user-friendly wrapper packages for most of our use cases. But in the case of Internet Archive’s <a href="https://archive.org/help/wayback_api.php" target="_blank">Wayback Machine API</a> I was a bit surprised. There seems to be only one actively maintained package on CRAN (rOpenSci’s <a href="https://github.com/ropensci/internetarchive" target="_blank"><code>internetarchive</code></a>), but it “just” allows to search and download archived content, not add your own. Short from starting to write my first R package, I tried to figure what’s already possible with the given set of options.</p>
+<p>So what’s to do? As R users we are usually blessed with a legion of user-friendly wrapper packages for most of our use cases. But in the case of Internet Archive’s <a href="https://archive.org/help/wayback_api.php" target="_blank">Wayback Machine API</a> I was a bit surprised. There seems to be only one actively maintained package on CRAN (rOpenSci’s <a href="https://github.com/ropensci/internetarchive" target="_blank"><code>internetarchive</code></a>), but it “just” allows to search and download archived content, not add your own. Short from starting to write my first R package, I tried to figure out what’s already possible with the given set of options.</p>
 </div>
 <div id="theory-crawl---extract---archive" class="section level1">
 <h1><span class="header-section-number">2</span> Theory: Crawl - Extract - Archive</h1>
@@ -77,7 +77,7 @@ mathjaxEnableAutoNumber: no
 </div>
 <div id="minimal-viable-demo---fetchurlstarget-archiveurlsurls" class="section level1">
 <h1><span class="header-section-number">3</span> “Minimal Viable Demo” - fetchURLs(target) &amp; archiveURLs(URLs)</h1>
-<p><code>Rcrawler</code>’s syntax might seem a bit unorthodox but the package is really feature-rich and we can actually solve Step 1 &amp; 2 with it (and purrr). Then, all we have to do is to figure how to sent a POST request to the Wayback API, and can then work on refining and parallelization.</p>
+<p><code>Rcrawler</code>’s syntax might seem a bit unorthodox but the package is really feature-rich and we can actually solve Step 1 &amp; 2 with it (and purrr). Having crawled all external link, all we have to do is to figure out how to send a POST request to the Wayback API, and can then work on refinement and parallelization.</p>
 <div id="setup" class="section level2">
 <h2><span class="header-section-number">3.1</span> Setup</h2>
 <pre class="r"><code>library(tidyverse)
@@ -116,7 +116,7 @@ print(paste0(&quot;CPU threads available: &quot;, cores))</code></pre>
   # helper: optional vector with string/Regex expressions to filter out specific unwanted links
   if (!is.null(ignoreStrings)) {
     urls_df &lt;- urls_df %&gt;% 
-      filter(!str_detect(`&lt;chr&gt;`,ignoreStrings))
+      filter(!str_detect(`&lt;chr&gt;`, ignoreStrings))
   }
   
   urls_df &lt;- urls_df %&gt;%
@@ -131,14 +131,17 @@ print(paste0(&quot;CPU threads available: &quot;, cores))</code></pre>
 <div id="archiveurl---function-to-archive-a-single-url-with-a-post-request" class="section level2">
 <h2><span class="header-section-number">3.3</span> archiveURL() - Function to archive a single URL with a POST request</h2>
 <blockquote>
-<p>TODO: Check first with test <code>internetarchive</code> package whether a link has already been archived, and archive only if archived link isn’t n days old.</p>
+<p>TODO: Check first with <code>internetarchive</code> package whether a link has already been archived, and if <code>true</code> archive only if archived link isn’t <code>n</code> days old.</p>
+</blockquote>
+<blockquote>
+<p>TODO: return 2 items: <code>originalURL</code>, <code>archivedURL</code></p>
 </blockquote>
 <pre class="r"><code>archiveURL &lt;- function(target_url) {
   
   # Communiy-built Wayback Machine API / endpoint
   endpoint &lt;- &quot;https://pragma.archivelab.org&quot;
   
-  # Alterntive Approach might be not use a quick &amp; dirty GET request
+  # Alterntive Approach might be to use a quick &amp; dirty GET request
   # https://github.com/motherboardgithub/mass_archive/blob/master/mass_archive.py
   
   # the POST request to the API
@@ -195,9 +198,9 @@ urls &lt;- fetchURLs(url, ignoreStrings = unwanted) %&gt;%
 <blockquote>
 <p>Each archiving step naturally takes some time. Making parallel async calls should be the next step.</p>
 </blockquote>
-<pre class="r"><code>archived_urls &lt;- archiveURLs(urls)
+<pre class="r"><code>archived_urls &lt;- archiveURLs(urls)</code></pre>
+<pre class="r"><code>if (!dir.exists(&quot;archived&quot;)) dir.create(&quot;archived&quot;)
 
-if (!dir.exists(&quot;archived&quot;)) dir.create(&quot;archived&quot;)
 write_csv(archived_urls, &quot;archived/archived-urls.csv&quot;)</code></pre>
 </div>
 </div>
@@ -206,7 +209,7 @@ write_csv(archived_urls, &quot;archived/archived-urls.csv&quot;)</code></pre>
 <ul>
 <li>How to parallelize archival (async calls are not supported by httr it seems, only curl?</li>
 <li>How to obey quota limitations (with ~setTimeout())?</li>
-<li>maybe use <a href="https://ropensci.org/tutorials/internetarchive_tutorial/"><code>internetarchive_tutorial</code></a> to check first whether a URL has already been archived</li>
+<li>maybe use <a href="https://ropensci.org/tutorials/internetarchive_tutorial/"><code>internetarchive</code></a> to check first whether a URL has already been archived</li>
 <li>or use generic API GET requests to retrieve URL, status and ID <a href="">https://archive.readme.io/docs/website-snapshots</a></li>
 </ul>
 <p>That’s it for today. Hope this is useful for some! If you have a proof-of-concept for making parallel async GET/POST requests, hit me up!</p>

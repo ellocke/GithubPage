@@ -43,7 +43,7 @@ Inspired by a session during this week's **epic** [**csv,conf v5**](https://csvc
 
 The web project's core - GPPI's rigorous research on Chemical Weapons attacks in Syria - is evidence-heavy (closed and open sources), and while almost all links in the [CSV dataset](https://chemicalweapons.gppi.net/data-portal/){target="_blank"} have already been archived, most of the external (=outbound) web links weren't. As websites are constantly re-designed and re-structured, link rot **is** a thing. Isn't that a `purrrfect` reason to get started with using the Wayback Machine API?
 
-So what's to do? As R users we are usually blessed with a legion of user-friendly wrapper packages for most of our use cases. But in the case of Internet Archive's [Wayback Machine API](https://archive.org/help/wayback_api.php){target="_blank"} I was a bit surprised. There seems to be only one actively maintained package on CRAN (rOpenSci's [`internetarchive`](https://github.com/ropensci/internetarchive){target="_blank"}), but it "just" allows to search and download archived content, not add your own. Short from starting to write my first R package, I tried to figure what's already possible with the given set of options.
+So what's to do? As R users we are usually blessed with a legion of user-friendly wrapper packages for most of our use cases. But in the case of Internet Archive's [Wayback Machine API](https://archive.org/help/wayback_api.php){target="_blank"} I was a bit surprised. There seems to be only one actively maintained package on CRAN (rOpenSci's [`internetarchive`](https://github.com/ropensci/internetarchive){target="_blank"}), but it "just" allows to search and download archived content, not add your own. Short from starting to write my first R package, I tried to figure out what's already possible with the given set of options.
 
 # Theory: Crawl - Extract - Archive
 
@@ -57,7 +57,7 @@ Fortunately, [#Rstats-Twitter](https://twitter.com/fubits/status/126138630097789
 
 # "Minimal Viable Demo" - fetchURLs(target) & archiveURLs(URLs)
 
-`Rcrawler`'s syntax might seem a bit unorthodox but the package is really feature-rich and we can actually solve Step 1 & 2 with it (and purrr). Then, all we have to do is to figure how to sent a POST request to the Wayback API, and can then work on refining and parallelization.
+`Rcrawler`'s syntax might seem a bit unorthodox but the package is really feature-rich and we can actually solve Step 1 & 2 with it (and purrr). Having crawled all external link, all we have to do is to figure out how to send a POST request to the Wayback API, and can then work on refinement and parallelization.
 
 ## Setup
 
@@ -98,7 +98,7 @@ fetchURLs <- function(url, ignoreStrings = NULL) {
   # helper: optional vector with string/Regex expressions to filter out specific unwanted links
   if (!is.null(ignoreStrings)) {
     urls_df <- urls_df %>% 
-      filter(!str_detect(`<chr>`,ignoreStrings))
+      filter(!str_detect(`<chr>`, ignoreStrings))
   }
   
   urls_df <- urls_df %>%
@@ -113,7 +113,9 @@ fetchURLs <- function(url, ignoreStrings = NULL) {
 
 ## archiveURL() - Function to archive a single URL with a POST request
 
-> TODO: Check first with test `internetarchive` package whether a link has already been archived, and archive only if archived link isn't n days old.
+> TODO: Check first with `internetarchive` package whether a link has already been archived, and if `true` archive only if archived link isn't `n` days old.
+
+> TODO: return 2 items: `originalURL`, `archivedURL`
 
 ```{r eval=FALSE}
 archiveURL <- function(target_url) {
@@ -121,7 +123,7 @@ archiveURL <- function(target_url) {
   # Communiy-built Wayback Machine API / endpoint
   endpoint <- "https://pragma.archivelab.org"
   
-  # Alterntive Approach might be not use a quick & dirty GET request
+  # Alterntive Approach might be to use a quick & dirty GET request
   # https://github.com/motherboardgithub/mass_archive/blob/master/mass_archive.py
   
   # the POST request to the API
@@ -184,16 +186,20 @@ urls <- fetchURLs(url, ignoreStrings = unwanted) %>%
 
 ```{r eval=FALSE}
 archived_urls <- archiveURLs(urls)
+```
 
+```{r eval=FALSE}
 if (!dir.exists("archived")) dir.create("archived")
+
 write_csv(archived_urls, "archived/archived-urls.csv")
 ```
+
 
 # Questions/TBD
 
 + How to parallelize archival (async calls are not supported by httr it seems, only curl?
 + How to obey quota limitations (with ~setTimeout())?
-+ maybe use [`internetarchive_tutorial`](https://ropensci.org/tutorials/internetarchive_tutorial/) to check first whether a URL has already been archived
++ maybe use [`internetarchive`](https://ropensci.org/tutorials/internetarchive_tutorial/) to check first whether a URL has already been archived
 + or use generic API GET requests to retrieve URL, status and ID [https://archive.readme.io/docs/website-snapshots]()
 
 That's it for today. Hope this is useful for some! If you have a proof-of-concept for making parallel async GET/POST requests, hit me up!
