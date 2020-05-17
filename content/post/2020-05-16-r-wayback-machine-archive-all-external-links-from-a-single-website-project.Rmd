@@ -39,21 +39,21 @@ mathjaxEnableAutoNumber: no
 
 !["Success - Batch Archiving external URLs with the Wayback Machine API & R / Rcrawler](/img/wayback_machine/wayback-machine.jpg)
 
-Inspired by a session during this week's **epic** [**csv,conf**](https://csvconf.com/){target="_blank"} remote conference event (really, omg, this experience would have been hard to top even pre-Corona), I wanted to **test how easy it would be to batch-archive a set of external links from a single website project with the Wayback Machine API & R**. In her talk on "[Data Archival from a journalist's perspective](https://csvconf.com/speakers/#soila-kenya){target="_blank"}, Soila Kenya discussed the necessity and ways to preserve web content esp. in the case of interactive pieces (i.e. by screen-capturing in the same manner as Gamers do in Minecraft!). 
+Inspired by a session during this week's **epic** [**csv,conf v5**](https://csvconf.com/){target="_blank"} remote conference event (really, omg, this experience would have been hard to top even pre-Corona), I wanted to **test how easy it would be to batch-archive a set of external links from a single website project with the Wayback Machine API & R**. In her talk on "[Data Archival from a journalist's perspective](https://csvconf.com/speakers/#soila-kenya){target="_blank"}", Soila Kenya discussed the necessity and ways to preserve web content esp. in the case of interactive pieces (i.e. by screen-capturing the user journey in the same manner as Gamers do in Minecraft!). 
 
-GPPI's research on Chemical Weapons is evidence-heavy (closed and open sources), and while almost all links in the [CSV dataset](https://chemicalweapons.gppi.net/data-portal/){target="_blank"} have already been archived, most of the external (=outbound) web links weren't. As websites are constantly relaunched and link rot **is** a thing, that's a purrrfect reason to get started with 
+The web project's core - GPPI's rigorous research on Chemical Weapons attacks in Syria - is evidence-heavy (closed and open sources), and while almost all links in the [CSV dataset](https://chemicalweapons.gppi.net/data-portal/){target="_blank"} have already been archived, most of the external (=outbound) web links weren't. As websites are constantly re-designed and re-structured, link rot **is** a thing. Isn't that a `purrrfect` reason to get started with using the Wayback Machine API?
 
-So what's to do. As R users we are usually blessed with a legion of user-friendly wrapper packages for most of our use cases. But in the case of Internet Archive's [Wayback Machine API] I was a bit surprised. There seems to be one actively maintained package on CRAN (rOpenSci's [`internetarchive`](https://github.com/ropensci/internetarchive){target="_blank"}), but it "only" allows to search and download archived content, not add your own. Short of starting to write my first package, I tried to figure what's already possible with the given set of options.
+So what's to do? As R users we are usually blessed with a legion of user-friendly wrapper packages for most of our use cases. But in the case of Internet Archive's [Wayback Machine API](https://archive.org/help/wayback_api.php){target="_blank"} I was a bit surprised. There seems to be only one actively maintained package on CRAN (rOpenSci's [`internetarchive`](https://github.com/ropensci/internetarchive){target="_blank"}), but it "just" allows to search and download archived content, not add your own. Short from starting to write my first R package, I tried to figure what's already possible with the given set of options.
 
 # Theory: Crawl - Extract - Archive
 
 In theory, the approach is a simple 3-step process:
 
-1. **crawl** all (or a subset of) pages of a single website / web project (let's assume HTML content; but there are solutions for dynamic / JS-rendered content)
+1. **crawl** all (or a subset of) pages of a single website / web project (let's focus on HTML content firat; JS reuires more work but there do exist solutions for scraping dynamic / JS-rendered content)
 2. **extract** all (or a subset of) external / outbound URLs (http/https)
 3. **archive** each external URL with a POST request to the Wayback Machine API
 
-Fortunately, [#Rstats-Twitter](https://twitter.com/fubits/status/1261386300977897472?s=20){target="_blank"} is always there to help out and [Peter Meissner](https://twitter.com/peterlovesdata/status/1261397322166087682){target="_blank"} hinted with Salim Khalil's [`RCrawler`](https://github.com/salimk/Rcrawler){target="_blank"} package at me (cf. [Khalil/Fakir 2017](https://www.sciencedirect.com/science/article/pii/S2352711017300110){target="_blank"}).
+Fortunately, [#Rstats-Twitter](https://twitter.com/fubits/status/1261386300977897472?s=20){target="_blank"} is always there to help out and [Peter Meissner](https://twitter.com/peterlovesdata/status/1261397322166087682){target="_blank"} hinted at me with Salim Khalil's [`RCrawler`](https://github.com/salimk/Rcrawler){target="_blank"} package (cf. [Khalil/Fakir 2017](https://www.sciencedirect.com/science/article/pii/S2352711017300110){target="_blank"}).
 
 # "Minimal Viable Demo" - fetchURLs(target) & archiveURLs(URLs)
 
@@ -118,8 +118,11 @@ fetchURLs <- function(url, ignoreStrings = NULL) {
 ```{r eval=FALSE}
 archiveURL <- function(target_url) {
   
-  # Wayback Machine API / endpoint
+  # Communiy-built Wayback Machine API / endpoint
   endpoint <- "https://pragma.archivelab.org"
+  
+  # Alterntive Approach might be not use a quick & dirty GET request
+  # https://github.com/motherboardgithub/mass_archive/blob/master/mass_archive.py
   
   # the POST request to the API
   response <- httr::POST(url = endpoint,

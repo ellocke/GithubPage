@@ -61,19 +61,19 @@ mathjaxEnableAutoNumber: no
 <img src="/img/wayback_machine/wayback-machine.jpg" alt="&quot;Success - Batch Archiving external URLs with the Wayback Machine API &amp; R / Rcrawler" />
 <p class="caption">"Success - Batch Archiving external URLs with the Wayback Machine API &amp; R / Rcrawler</p>
 </div>
-<p>Inspired by a session during this week’s <strong>epic</strong> <a href="https://csvconf.com/" target="_blank"><strong>csv,conf</strong></a> remote conference event (really, omg, this experience would have been hard to top even pre-Corona), I wanted to <strong>test how easy it would be to batch-archive a set of external links from a single website project with the Wayback Machine API &amp; R</strong>. In her talk on "<a href="https://csvconf.com/speakers/#soila-kenya" target="_blank">Data Archival from a journalist’s perspective</a>, Soila Kenya discussed the necessity and ways to preserve web content esp. in the case of interactive pieces (i.e. by screen-capturing in the same manner as Gamers do in Minecraft!).</p>
-<p>GPPI’s research on Chemical Weapons is evidence-heavy (closed and open sources), and while almost all links in the <a href="https://chemicalweapons.gppi.net/data-portal/" target="_blank">CSV dataset</a> have already been archived, most of the external (=outbound) web links weren’t. As websites are constantly relaunched and link rot <strong>is</strong> a thing, that’s a purrrfect reason to get started with</p>
-<p>So what’s to do. As R users we are usually blessed with a legion of user-friendly wrapper packages for most of our use cases. But in the case of Internet Archive’s [Wayback Machine API] I was a bit surprised. There seems to be one actively maintained package on CRAN (rOpenSci’s <a href="https://github.com/ropensci/internetarchive" target="_blank"><code>internetarchive</code></a>), but it “only” allows to search and download archived content, not add your own. Short of starting to write my first package, I tried to figure what’s already possible with the given set of options.</p>
+<p>Inspired by a session during this week’s <strong>epic</strong> <a href="https://csvconf.com/" target="_blank"><strong>csv,conf v5</strong></a> remote conference event (really, omg, this experience would have been hard to top even pre-Corona), I wanted to <strong>test how easy it would be to batch-archive a set of external links from a single website project with the Wayback Machine API &amp; R</strong>. In her talk on “<a href="https://csvconf.com/speakers/#soila-kenya" target="_blank">Data Archival from a journalist’s perspective</a>”, Soila Kenya discussed the necessity and ways to preserve web content esp. in the case of interactive pieces (i.e. by screen-capturing the user journey in the same manner as Gamers do in Minecraft!).</p>
+<p>The web project’s core - GPPI’s rigorous research on Chemical Weapons attacks in Syria - is evidence-heavy (closed and open sources), and while almost all links in the <a href="https://chemicalweapons.gppi.net/data-portal/" target="_blank">CSV dataset</a> have already been archived, most of the external (=outbound) web links weren’t. As websites are constantly re-designed and re-structured, link rot <strong>is</strong> a thing. Isn’t that a <code>purrrfect</code> reason to get started with using the Wayback Machine API?</p>
+<p>So what’s to do? As R users we are usually blessed with a legion of user-friendly wrapper packages for most of our use cases. But in the case of Internet Archive’s <a href="https://archive.org/help/wayback_api.php" target="_blank">Wayback Machine API</a> I was a bit surprised. There seems to be only one actively maintained package on CRAN (rOpenSci’s <a href="https://github.com/ropensci/internetarchive" target="_blank"><code>internetarchive</code></a>), but it “just” allows to search and download archived content, not add your own. Short from starting to write my first R package, I tried to figure what’s already possible with the given set of options.</p>
 </div>
 <div id="theory-crawl---extract---archive" class="section level1">
 <h1><span class="header-section-number">2</span> Theory: Crawl - Extract - Archive</h1>
 <p>In theory, the approach is a simple 3-step process:</p>
 <ol style="list-style-type: decimal">
-<li><strong>crawl</strong> all (or a subset of) pages of a single website / web project (let’s assume HTML content; but there are solutions for dynamic / JS-rendered content)</li>
+<li><strong>crawl</strong> all (or a subset of) pages of a single website / web project (let’s focus on HTML content firat; JS reuires more work but there do exist solutions for scraping dynamic / JS-rendered content)</li>
 <li><strong>extract</strong> all (or a subset of) external / outbound URLs (http/https)</li>
 <li><strong>archive</strong> each external URL with a POST request to the Wayback Machine API</li>
 </ol>
-<p>Fortunately, <a href="https://twitter.com/fubits/status/1261386300977897472?s=20" target="_blank">#Rstats-Twitter</a> is always there to help out and <a href="https://twitter.com/peterlovesdata/status/1261397322166087682" target="_blank">Peter Meissner</a> hinted with Salim Khalil’s <a href="https://github.com/salimk/Rcrawler" target="_blank"><code>RCrawler</code></a> package at me (cf. <a href="https://www.sciencedirect.com/science/article/pii/S2352711017300110" target="_blank">Khalil/Fakir 2017</a>).</p>
+<p>Fortunately, <a href="https://twitter.com/fubits/status/1261386300977897472?s=20" target="_blank">#Rstats-Twitter</a> is always there to help out and <a href="https://twitter.com/peterlovesdata/status/1261397322166087682" target="_blank">Peter Meissner</a> hinted at me with Salim Khalil’s <a href="https://github.com/salimk/Rcrawler" target="_blank"><code>RCrawler</code></a> package (cf. <a href="https://www.sciencedirect.com/science/article/pii/S2352711017300110" target="_blank">Khalil/Fakir 2017</a>).</p>
 </div>
 <div id="minimal-viable-demo---fetchurlstarget-archiveurlsurls" class="section level1">
 <h1><span class="header-section-number">3</span> “Minimal Viable Demo” - fetchURLs(target) &amp; archiveURLs(URLs)</h1>
@@ -86,7 +86,7 @@ library(Rcrawler)
 # use all CPU cores (~threads) minus 1 to parallelize scraping
 cores = (parallel::detectCores() - 1)
 print(paste0(&quot;CPU threads available: &quot;, cores))</code></pre>
-<pre><code>## [1] &quot;CPU threads available: 15&quot;</code></pre>
+<pre><code>## [1] &quot;CPU threads available: 7&quot;</code></pre>
 </div>
 <div id="fetchurlsurl---function-to-crawl-scrape-a-single-website" class="section level2">
 <h2><span class="header-section-number">3.2</span> fetchURLs(url) - Function to crawl &amp; scrape a single Website</h2>
@@ -135,8 +135,11 @@ print(paste0(&quot;CPU threads available: &quot;, cores))</code></pre>
 </blockquote>
 <pre class="r"><code>archiveURL &lt;- function(target_url) {
   
-  # Wayback Machine API / endpoint
+  # Communiy-built Wayback Machine API / endpoint
   endpoint &lt;- &quot;https://pragma.archivelab.org&quot;
+  
+  # Alterntive Approach might be not use a quick &amp; dirty GET request
+  # https://github.com/motherboardgithub/mass_archive/blob/master/mass_archive.py
   
   # the POST request to the API
   response &lt;- httr::POST(url = endpoint,
