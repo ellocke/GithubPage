@@ -55,7 +55,7 @@ In theory, the approach is a simple 3-step process:
 
 Fortunately, [#Rstats-Twitter](https://twitter.com/fubits/status/1261386300977897472?s=20){target="_blank"} is always there to help out and [Peter Meissner](https://twitter.com/peterlovesdata/status/1261397322166087682){target="_blank"} hinted at me with Salim Khalil's [`RCrawler`](https://github.com/salimk/Rcrawler){target="_blank"} package (cf. [Khalil/Fakir 2017](https://www.sciencedirect.com/science/article/pii/S2352711017300110){target="_blank"}).
 
-# "Minimal Viable Demo" - fetchURLs(target) & archiveURLs(URLs)
+# "Minimum Viable Demo" - fetchURLs(target) & archiveURLs(URLs)
 
 `Rcrawler`'s syntax might seem a bit unorthodox but the package is really feature-rich and we can actually solve Step 1 & 2 with it (and purrr). Having crawled all external link, all we have to do is to figure out how to send a POST request to the Wayback API, and can then work on refinement and parallelization.
 
@@ -163,9 +163,9 @@ archiveURLs <- function(urls) {
   }
 ```
 
-# Proof-of-Concept - Execution
+## Proof-of-Concept - Execution
 
-## Scrape external Links from the project website
+### Scrape external Links from the project website
 
 > Demo mode: only first 5 links
 
@@ -180,7 +180,7 @@ urls <- fetchURLs(url, ignoreStrings = unwanted) %>%
   head(5) # Demo to not abuse resources
 ```
 
-## Archive external links and save as CSV
+### Archive external links and save as CSV
 
 > Each archiving step naturally takes some time. Making parallel async calls should be the next step.
 

@@ -38,17 +38,17 @@ mathjaxEnableAutoNumber: no
 <ul>
 <li><a href="#use-case-archive-all-links-from-a-single-web-project"><span class="toc-section-number">1</span> Use Case: Archive All Links from a Single Web Project</a></li>
 <li><a href="#theory-crawl---extract---archive"><span class="toc-section-number">2</span> Theory: Crawl - Extract - Archive</a></li>
-<li><a href="#minimal-viable-demo---fetchurlstarget-archiveurlsurls"><span class="toc-section-number">3</span> “Minimal Viable Demo” - fetchURLs(target) &amp; archiveURLs(URLs)</a><ul>
+<li><a href="#minimum-viable-demo---fetchurlstarget-archiveurlsurls"><span class="toc-section-number">3</span> “Minimum Viable Demo” - fetchURLs(target) &amp; archiveURLs(URLs)</a><ul>
 <li><a href="#setup"><span class="toc-section-number">3.1</span> Setup</a></li>
 <li><a href="#fetchurlsurl---function-to-crawl-scrape-a-single-website"><span class="toc-section-number">3.2</span> fetchURLs(url) - Function to crawl &amp; scrape a single Website</a></li>
 <li><a href="#archiveurl---function-to-archive-a-single-url-with-a-post-request"><span class="toc-section-number">3.3</span> archiveURL() - Function to archive a single URL with a POST request</a></li>
 <li><a href="#wrapper-function-to-archive-a-vector-of-urls"><span class="toc-section-number">3.4</span> Wrapper function to archive a vector of URLs:</a></li>
+<li><a href="#proof-of-concept---execution"><span class="toc-section-number">3.5</span> Proof-of-Concept - Execution</a><ul>
+<li><a href="#scrape-external-links-from-the-project-website"><span class="toc-section-number">3.5.1</span> Scrape external Links from the project website</a></li>
+<li><a href="#archive-external-links-and-save-as-csv"><span class="toc-section-number">3.5.2</span> Archive external links and save as CSV</a></li>
 </ul></li>
-<li><a href="#proof-of-concept---execution"><span class="toc-section-number">4</span> Proof-of-Concept - Execution</a><ul>
-<li><a href="#scrape-external-links-from-the-project-website"><span class="toc-section-number">4.1</span> Scrape external Links from the project website</a></li>
-<li><a href="#archive-external-links-and-save-as-csv"><span class="toc-section-number">4.2</span> Archive external links and save as CSV</a></li>
 </ul></li>
-<li><a href="#questionstbd"><span class="toc-section-number">5</span> Questions/TBD</a></li>
+<li><a href="#questionstbd"><span class="toc-section-number">4</span> Questions/TBD</a></li>
 </ul>
 </div>
 
@@ -75,8 +75,8 @@ mathjaxEnableAutoNumber: no
 </ol>
 <p>Fortunately, <a href="https://twitter.com/fubits/status/1261386300977897472?s=20" target="_blank">#Rstats-Twitter</a> is always there to help out and <a href="https://twitter.com/peterlovesdata/status/1261397322166087682" target="_blank">Peter Meissner</a> hinted at me with Salim Khalil’s <a href="https://github.com/salimk/Rcrawler" target="_blank"><code>RCrawler</code></a> package (cf. <a href="https://www.sciencedirect.com/science/article/pii/S2352711017300110" target="_blank">Khalil/Fakir 2017</a>).</p>
 </div>
-<div id="minimal-viable-demo---fetchurlstarget-archiveurlsurls" class="section level1">
-<h1><span class="header-section-number">3</span> “Minimal Viable Demo” - fetchURLs(target) &amp; archiveURLs(URLs)</h1>
+<div id="minimum-viable-demo---fetchurlstarget-archiveurlsurls" class="section level1">
+<h1><span class="header-section-number">3</span> “Minimum Viable Demo” - fetchURLs(target) &amp; archiveURLs(URLs)</h1>
 <p><code>Rcrawler</code>’s syntax might seem a bit unorthodox but the package is really feature-rich and we can actually solve Step 1 &amp; 2 with it (and purrr). Having crawled all external link, all we have to do is to figure out how to send a POST request to the Wayback API, and can then work on refinement and parallelization.</p>
 <div id="setup" class="section level2">
 <h2><span class="header-section-number">3.1</span> Setup</h2>
@@ -177,11 +177,10 @@ print(paste0(&quot;CPU threads available: &quot;, cores))</code></pre>
   return(result)
   }</code></pre>
 </div>
-</div>
-<div id="proof-of-concept---execution" class="section level1">
-<h1><span class="header-section-number">4</span> Proof-of-Concept - Execution</h1>
-<div id="scrape-external-links-from-the-project-website" class="section level2">
-<h2><span class="header-section-number">4.1</span> Scrape external Links from the project website</h2>
+<div id="proof-of-concept---execution" class="section level2">
+<h2><span class="header-section-number">3.5</span> Proof-of-Concept - Execution</h2>
+<div id="scrape-external-links-from-the-project-website" class="section level3">
+<h3><span class="header-section-number">3.5.1</span> Scrape external Links from the project website</h3>
 <blockquote>
 <p>Demo mode: only first 5 links</p>
 </blockquote>
@@ -193,8 +192,8 @@ unwanted &lt;- c(&quot;gppi|GPPi|dadascience|youtube|Youtube&quot;)
 urls &lt;- fetchURLs(url, ignoreStrings = unwanted) %&gt;%
   head(5) # Demo to not abuse resources</code></pre>
 </div>
-<div id="archive-external-links-and-save-as-csv" class="section level2">
-<h2><span class="header-section-number">4.2</span> Archive external links and save as CSV</h2>
+<div id="archive-external-links-and-save-as-csv" class="section level3">
+<h3><span class="header-section-number">3.5.2</span> Archive external links and save as CSV</h3>
 <blockquote>
 <p>Each archiving step naturally takes some time. Making parallel async calls should be the next step.</p>
 </blockquote>
@@ -204,8 +203,9 @@ urls &lt;- fetchURLs(url, ignoreStrings = unwanted) %&gt;%
 write_csv(archived_urls, &quot;archived/archived-urls.csv&quot;)</code></pre>
 </div>
 </div>
+</div>
 <div id="questionstbd" class="section level1">
-<h1><span class="header-section-number">5</span> Questions/TBD</h1>
+<h1><span class="header-section-number">4</span> Questions/TBD</h1>
 <ul>
 <li>How to parallelize archival (async calls are not supported by httr it seems, only curl?</li>
 <li>How to obey quota limitations (with ~setTimeout())?</li>
