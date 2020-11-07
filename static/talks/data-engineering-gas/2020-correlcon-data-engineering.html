@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Spreadsheets on Steroids 💉</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ilja Sperling | @fubits" />
+    <script src="libs/header-attrs-2.5/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/xarigan_custom_v2.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Spreadsheets on Steroids 💉
+## Data Engineering with Google Apps Script
+### Ilja Sperling | <a href='https://twitter.com/fubits'><span class="citation">@fubits</span></a>
+### <a href="https://correlaid.org/en/events/2020-11/correlcon/">CorrelCon Berlin</a>, 2020-11-07
+
+---
+
+class: inverse
+background-image: url('img/2020-pipeline.png')
+background-position: center
+background-size: contain
+
+# Sneak&lt;br&gt;Preview
+
+
+---
+# Outline
+
+.pull-left[
+
+.TOC[
+1. What/Why: The ~~Problem~~ Challenge
+1. How:
+  1. Google App Script
+  1. Spreadsheet Factory
+1. Demo
+1. Lessons Learned
+
+]
+
+]
+
+---
+# About Me
+
++ Ilja | &lt;a href="https://twitter.com/fubits"&gt;@fubits&lt;/a&gt;
+--
+
++ Tech Lead @ &lt;a href="https://rankingdigitalrights.org/"&gt;Ranking Digital Rights&lt;/a&gt; (New America)
+--
+
++ Freelance Product Developer (&lt;a href="https://dadascience.design/portfolio/"&gt;dadascience.design/portfolio&lt;/a&gt;)
+--
+
+  + Web &amp; Software Engineering
+  + DataViz &amp; InfoViz; Spatial / Maps ❤️
+  + Data Management &amp; Information Security
+  + ~~Design Thinking~~ Human-Centered Design ([ISO 9214](https://en.wikipedia.org/wiki/ISO_9241))
+--
+
++ (BA/MA = [CommSci, PolSci / Computational Social Science])
+
+---
+background-image: url('img/gppi-chemical-weapons.png')
+background-size: cover
+.source[[chemicalweapons.gppi.net](https://chemicalweapons.gppi.net/)]
+
+---
+class: center, middle, subtitle-slide
+
+# WHAT
+
+---
+# Use Case: [Ranking Digital Rights Index](https://rankingdigitalrights.org/index2019/)
+
+--
+
+- Evaluates policies of Internet and Telecommunication companies
+  - Apple, Alibaba, Facebook, Google, Microsoft, Telefonica,...
+  - 2020: 5th Index; 26 companies / 77 services
+--
+
+- Methodology
+  - 2019: 35 Indicators / 184 Elements
+  - 2020: 58 Indicators / 335 Elements
+--
+
+  - 7 Main Research Steps / 21 Substeps
+  - Company Feedback (I/O)
+--
+
+  - 30+ Researchers
+  - ~9 months per cycle
+  
+---
+
+## Single Indicator Example
+
++ results
++ comments
++ sources
++ scores
+  + element
+  + level
+  + indicator
+
+.bigpicture-two-thirds[
+![](img/2019-scoring-example.png)
+]
+
+---
+
+## Research Process
+
+![2019 Research Process](img/2019-research-process.png)
+
+---
+## Legacy Spreadsheet Infrastructure
+
+![2019 Infrastructure](img/2018-infra.png)
+
+---
+
+background-image: url('img/excel-meme.jpg')
+background-size:contain
+
+---
+## 2019 Interactions
+
+![2019 Interactions ](img/2019-interactions-input.png)
+
+---
+## 2019 Interactions
+
+![2019 Interactions ](img/2019-interactions.png)
+
+---
+class: center, middle, subtitle-slide
+
+# WHY
+
+---
+
+## Goal: Production
+
+&gt; `O(x) &gt; (26 * (58 + n)) * x`  
+&gt; `O(x) &gt; (26 * (335 * n)) * x`
+
+--
+
+
+```javascript
+Companies.forEach(Company =&gt; {
+        produceInputSpreadsheet(ResearchSteps, Indicators, Company)
+    })
+```
+
+--
+
+
+```javascript
+Companies.forEach(Company =&gt; {
+        produceOutputSpreadsheet(ResearchSteps, Indicators, Company)
+    })
+
+Companies.forEach(Company =&gt; {
+        produceFeedbackSpreadsheet(ResearchSteps, Indicators, Company)
+    })
+
+produceSummaryScoresSpreadsheet(ResearchSteps, Indicators, Company)
+
+produceearOnYearSpreadsheet(ResearchSteps, Indicators, Company)
+```
+
+---
+
+## Goal - Data Scientist
+
+&gt; Public Final Dataset = `275.000` data points
+
+--
+
+```r
+## Import Tidy Data
+
+library(tidyverse)
+# data &lt;- read_csv("2020-tidy-data.csv")
+data &lt;- DBI::dbReadTable(sql_con, "2020-tidy-data")
+
+## Analyze
+
+data %&gt;% 
+  select() %&gt;% 
+  filter() %&gt;% 
+  group_by() %&gt;% 
+  summarize() %&gt;% 
+  ggplot()
+  
+```
+
+---
+
+## Goal - Research Team
+
++ Strategic Goal: help Index scale
+  + Automate the redundant / labour-intense / error-prone parts
+  + Increase data accessibility (internally and externally)
+  + Increase robustness &amp; maintainability
+  + Increase researcher autonomy
+
+
++ Challenges:
+  + Index Dimensions + Year-on-Year Compatibility
+  + vs SpReAdShEeTs
+  + vs [Usability](https://www.interaction-design.org/literature/topics/usability) (Efficiency + Effectiveness + Satisfaction)
+
+---
+class: center, middle, subtitle-slide
+
+# HOW
+
+---
+
+## Process: Capacity Assessment -&gt; Data Management Roadmap
+
+![](img/data-mgmt-roadmap.png)
+
+---
+
+## Process: Product Vision
+
+![](img/product-vision.png)
+
+---
+
+## Module Development: UI/UX
+
+---
+background-image:url('img/sheet-ui-plain.png')
+background-size: contain
+
+---
+background-image:url('img/sheet-ui-labelled.png')
+background-size: contain
+
+---
+## Catch 22: Structured Data Layer
+
+---
+background-image: url('img/named-ranges.png')
+background-size: contain
+
+---
+class: center, middle, subtitle-slide
+
+# Google Apps Script
+
+---
+## Google Apps Script
+
+[https://developers.google.com/apps-script](https://developers.google.com/apps-script)
+--
+
++ API for Google Sheets / Drive / Slides / Docs / Gmail / et al.
+--
+
++ Google Apps Script :=
+  + Javascript with Google Classes/Methods
+  + Development Environment
+--
+
++ (Google API v4 := RESTful)
+--
+
++ `clasp` [Node Package](https://github.com/google/clasp) := CLI for Apps Scrip (--&gt; VSCode)
+
+---
+
+## Google Apps Script - [Spreadsheets API](https://developers.google.com/apps-script/reference/spreadsheet/sheet)
+
+--
+```javascript
+const SS = SpreadsheetApp.openById(fileId) // get Spreadsheet
+let Sheet = SS.openBySheetName("results") // get Sheet ("Tab")
+```
+--
+```javascript
+Sheet.appendRow(["col A", "col B", "col C"]) // add a row with prefilled cells
+```--
+
+```javascript
+// add multiple rows (2D array)
+rows = [
+["row 1", "row 1 value"],
+["row 2", "row 2 value"]
+["row 3", "row 3 value"]
+]
+
+rows.push([["row 4", "row 4 value"]])
+
+rows.forEach(row =&gt; Sheet.appendRow(row))
+```
+
+---
+background-image: url('img/dev_environment.jpg')
+background-size: fit
+
+## Google Apps Script - [clasp](https://github.com/google/clasp)
+
+---
+class: center, middle, subtitle-slide
+
+# DEMO
+
+---
+
+# The Fruits of our Labour
+
++ ETL Pipeline
++ CRON
++ QA/QC
+
+.bigpicture-two-thirds[
+![](img/r-etl-pipeline-2.png)
+]
+
+---
+
+# The Fruits of our Labour
+
+![](img/r-etl-pipeline.png)
+
+---
+background-image: url('img/metabase.png')
+background-size: contain
+
+# Metabase
+
+---
+background-image: url('img/metabase-export.png')
+background-size: contain
+
+# Metabase
+---
+# Lessons Learned
+
+.pull-left[
++ 2020 Index --&gt; upper boundries of GAS &amp; Sheets
++ Google Sheets Limitations
+  + 5.000.000 cells / file limit
+  + Caching
+  + crappy event listener
++ Google Script Limitations
+  + single threaded (no async / await)
+  + API rate limits**
++ Frontend-heavy
+]
+--
+
+.pull-right[
++ Data Store Approach +1/-1
++ UX
++ Integration with other Services / APIs (`urlFetch()`)
++ Spreadsheet-Bound Scripts --&gt; Menu / `Sheet.onEdit()`
++ aUtOmAtIoN^3
++ robustness +1/-1 (i.e. named ranges "fidelity")
+]
+
+---
+class: center, middle
+
+# Questions?
+
+Slides: [dadascience.design/talks](https://dadascience.design/talks)
+
+Reach out: [@fubits](https://twitter.com/fubits)
+
+___
+
+Slides created with [xaringan](https://github.com/yihui/xaringan).
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

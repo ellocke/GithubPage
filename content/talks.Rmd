@@ -49,12 +49,26 @@ Slides and resources for my public talks & workshops.
 
 ___
 
+## Data Engineering
+
+> **2020-11-07: Spreadsheets on Steroids - Data Engineering with Google Apps Script**
+
+* Presented at [CorrelCon 2020](https://correlaid.org/en/events/2020-11/correlcon/){target="_blank"}
+
+<!--
+```{r out.width = '100%', fig.asp=1.78, echo=FALSE}
+knitr::include_url('/talks/data-engineering-gas/2020-correlcon-data-engineering.html')
+```
+-->
+* [Slides (Xarigan)](data-engineering-gas/2020-correlcon-data-engineering.html#1')
+
+___
 
 ## GIS / Mapping / Spatial Workflows
 
 > **2019-11-27: Pragmatic GIS with R - Tidy Approaches to Spatial Data**
 
-* Presented at [BerlinR MeetUp #6](https://www.meetup.com/de-DE/BerlinR-R-users-group/events/266157696/){target="_blank"}
+* Presented at [BerlinR MeetUp #6](https://www.meetup.com/de-DE/BerlinR-R-users-group/events/266157696/){target="_blank"} & [CorrelCon 2019](https://correlaid.org/en/events/2019-11/meetup/){target="_blank"}
 
 ```{r out.width = '100%', fig.asp=1.78, echo=FALSE}
 knitr::include_url('/talks/BerlinRTidyGIS/BerlinR_GIS_talk.html')
@@ -76,7 +90,7 @@ ___
 
 ___
 
-## Blogdown
+## WebDev
 
 > **2018-11-28: Code-centric Websites with Blogdown & R**
 
